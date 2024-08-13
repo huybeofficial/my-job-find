@@ -49,7 +49,7 @@ let checkUserPhone = (userPhone) => {
             if (!userPhone) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters!'
+                    errMessage: 'Thiếu tham số bắt buộc!'
                 })
             } else {
                 let account = await db.Account.findOne({
@@ -74,7 +74,7 @@ let handleCreateNewUser = (data) => {
             if (!data.phonenumber || !data.lastName || !data.firstName ) {
                 resolve({
                     errCode: 2,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let check = await checkUserPhone(data.phonenumber);
@@ -98,7 +98,7 @@ let handleCreateNewUser = (data) => {
                         imageUrl = uploadedResponse.url
                     }
                     if (!data.email) {
-                        data.email = 'nguyenletantai1102200@gmail.com'
+                        data.email = 'huybefake@gmail.com'
                     }
                     let params = {
                         firstName: data.firstName,
@@ -152,7 +152,7 @@ let banUser = (userId) => {
             if (!userId) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let foundUser = await db.User.findOne({
@@ -197,7 +197,7 @@ let unbanUser = (userId) => {
             if (!userId) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let foundUser = await db.User.findOne({
@@ -240,7 +240,7 @@ let updateUserData = (data) => {
             if (!data.id) {
                 resolve({
                     errCode: 2,
-                    errMessage: `Missing required parameters`
+                    errMessage: `Thiếu tham số bắt buộc`
                 })
             } else {
                 let user = await db.User.findOne({
@@ -338,7 +338,7 @@ let handleLogin = (data) => {
             if (!data.phonenumber || !data.password) {
                 resolve({
                     errCode: 4,
-                    errMessage: 'Missing required parameters!'
+                    errMessage: 'Thiếu tham số bắt buộc!'
                 })
             }
             else {
@@ -482,7 +482,7 @@ let getDetailUserById = (userid) => {
             if (!userid) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters!'
+                    errMessage: 'Thiếu tham số bắt buộc!'
                 })
             } else {
                 let res = await db.Account.findOne({
@@ -531,7 +531,7 @@ let setDataUserSetting = (data) => {
             if (!data.id || !data.data) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters!'
+                    errMessage: 'Thiếu tham số bắt buộc!'
                 })
             } else {
                 let user = await db.User.findOne({

@@ -1,3 +1,5 @@
+import tinymce from "../../tinymce";
+
 /**
  * Copyright (c) Tiny Technologies, Inc. All rights reserved.
  * Licensed under the LGPL or a commercial license.

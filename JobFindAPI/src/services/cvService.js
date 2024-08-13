@@ -53,7 +53,7 @@ let handleCreateCv = (data) => {
             if (!data.userId || !data.file || !data.postId || !data.description) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let cv = await db.Cv.create({
@@ -87,7 +87,7 @@ let getAllListCvByPost = (data) => {
             if (!data.postId || !data.limit || !data.offset) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let cv = await db.Cv.findAndCountAll({
@@ -137,11 +137,13 @@ let getAllListCvByPost = (data) => {
                 listSkills = listSkills.map(item => {
                     mapRequired.set(item.id,item.name)
                 })
-                console.log(mapRequired)
                 getMapRequiredSkill(mapRequired,postInfo)
                 for (let i= 0; i< cv.rows.length; i++) {
                     let match = await caculateMatchCv(cv.rows[i].file,mapRequired)
-                    cv.rows[i].file = Math.round((match/mapRequired.size + Number.EPSILON) * 100) + '%'
+                    console.log("xxxx",match);
+                    console.log("xxxx", cv.rows[i].file);
+                    console.log("xxxx", mapRequired.size);
+                    cv.rows[i].file = Math.round((match/mapRequired.size + Number.EPSILON) * 100 || 0) + '%'
                 }
                 resolve({
                     errCode: 0,
@@ -160,7 +162,7 @@ let getDetailCvById = (data) => {
             if (!data.cvId || !data.roleCode) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let cv = await db.Cv.findOne({
@@ -200,7 +202,7 @@ let getAllCvByUserId = (data) => {
             if (!data.userId || !data.limit || !data.offset) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let cv = await db.Cv.findAndCountAll({
@@ -251,7 +253,7 @@ let getStatisticalCv = (data) => {
             if (!data.fromDate || !data.toDate  || !data.companyId) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             }
             let company = await db.Company.findOne({
@@ -356,7 +358,7 @@ let fillterCVBySelection = (data) => {
             if (!data.limit || !data.offset) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let objectFillter = {
@@ -468,7 +470,7 @@ let checkSeeCandiate = (data) => {
             if (!data.userId && !data.companyId) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let company

@@ -344,7 +344,7 @@ const getTailMailTemplate = () => {
                               <span style="
                               width: 100%;
                               display: inline-block;
-                            ">Một mÌnH tAo © 2022</span>
+                            ">Một mÌnH tAo © 2024</span>
                               <span>Find what you want to do &amp; Do what thing you love.</span>
                             </div>
                           </div>

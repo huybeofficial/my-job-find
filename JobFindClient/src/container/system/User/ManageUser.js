@@ -37,6 +37,7 @@ const ManageUser = () => {
     useEffect(async () => {
         await fetchAllUser()
     }, [search])
+
     let handleChangePage = async (number) => {
         setnumberPage(number.selected)
         let arrData = await getAllUsers({
@@ -60,11 +61,8 @@ const ManageUser = () => {
                 res = await UnbanUserService(item.userAccountData.id)
             }
             if (res && res.errCode === 0) {
-                toast.success(res.errMessage)
-                let user = await getAllUsers({
-                    limit: PAGINATION.pagerow,
-                    offset: numberPage * PAGINATION.pagerow
-                })
+                toast.success(res.message)
+                let user = await fetchAllUser()
                 if (user && user.errCode === 0) {
     
                     setdataUser(user.data);
@@ -72,7 +70,7 @@ const ManageUser = () => {
                     setCount(Math.ceil(user.count / PAGINATION.pagerow))
                 }
             } else {
-                toast.error(res.errMessage)
+                toast.error(res.message)
             }
     }
     const handleSearch = (value) => {
@@ -135,7 +133,7 @@ const ManageUser = () => {
                                                     <td>
                                                         <Link style={{ color: '#4B49AC' }} to={`/admin/edit-user/${item.userAccountData.id}/`}>Sửa</Link>
                                                         &nbsp; &nbsp;
-                                                       {user.id != item.id &&  <a style={{ color: '#4B49AC' }} href="#" onClick={(event) => handlebanUser(event, item)} >{item.statusCode === 'S1' ? 'Chặn' : 'Kích hoạt' }</a>}
+                                                       {user.id != item.id &&  <a style={{ color: '#4B49AC' }} href='#' onClick={(event) => handlebanUser(event, item)} >{item.statusCode === 'S1' ? 'Chặn' : 'Kích hoạt' }</a>}
                                                     </td>
                                                 </tr>
                                             )

@@ -37,7 +37,7 @@ let checkCompany = (name, id = null) => {
             if (!name) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters!'
+                    errMessage: 'Thiếu tham số bắt buộc!'
                 })
             } else {
                 let company = null
@@ -71,7 +71,7 @@ let checkUserPhone = (userPhone) => {
             if (!userPhone) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters!'
+                    errMessage: 'Thiếu tham số bắt buộc!'
                 })
             } else {
                 let account = await db.Account.findOne({
@@ -99,7 +99,7 @@ let handleCreateNewCompany = (data) => {
                 || !data.amountEmployer || !data.userId) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 if (await checkCompany(data.name)) {
@@ -183,7 +183,7 @@ let handleUpdateCompany = (data) => {
             if (!data.id || !data.name || !data.phonenumber || !data.address || !data.descriptionHTML || !data.descriptionMarkdown || !data.amountEmployer) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 if (await checkCompany(data.name, data.id)) {
@@ -270,7 +270,7 @@ let handleBanCompany = (companyId) => {
             if (!companyId) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let foundCompany = await db.Company.findOne({
@@ -303,7 +303,7 @@ let handleUnBanCompany = (companyId) => {
             if (!companyId) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let foundCompany = await db.Company.findOne({
@@ -338,7 +338,7 @@ let handleAccecptCompany = (data) => {
             if (!data.companyId) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let foundCompany = await db.Company.findOne({
@@ -391,7 +391,7 @@ let handleAddUserCompany = (data) => {
             if (!data.phonenumber || !data.companyId) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let company = await db.Company.findOne({ where: { id: data.companyId } })
@@ -459,7 +459,7 @@ let getListCompany = (data) => {
             if (!data.limit || !data.offset) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let objectFilter = {
@@ -490,7 +490,7 @@ let getDetailCompanyById = (id) => {
             if (!id) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
 
@@ -566,7 +566,7 @@ let getDetailCompanyByUserId = (data) => {
             if (!data.userId && !data.companyId) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let company
@@ -656,7 +656,7 @@ let handleQuitCompany = (data) => {
             if (!data.userId) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let user = await db.User.findOne({
@@ -713,7 +713,7 @@ let getAllCompanyByAdmin = (data) => {
             if (!data.limit || data.offset === '') {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let objectFilter = {

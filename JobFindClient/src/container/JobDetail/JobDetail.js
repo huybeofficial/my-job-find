@@ -6,6 +6,7 @@ import SendCvModal from '../../components/modal/SendCvModal'
 import { getDetailPostByIdService } from '../../service/userService'
 import moment from 'moment';
 import CommonUtils from '../../util/CommonUtils';
+import { NavLink } from 'react-router-dom'
 const JobDetail = () => {
     const history = useHistory()
     const { id } = useParams()
@@ -138,7 +139,7 @@ const JobDetail = () => {
                                         <div className="small-section-tittle">
                                             <h4>Thông tin công ty</h4>
                                         </div>
-                                        <span>Tên công ty : {dataPost.companyData.name}</span>
+                                        <span>Tên công ty : <NavLink to={`/detail-company/${dataPost.companyData.id}`}>{dataPost.companyData.name}</NavLink> </span>
                                         <ul>
                                             <li>Website     : <span>{dataPost.companyData.website}</span></li>
                                             <li>Địa chỉ     : <span>{dataPost.companyData.address}</span></li>

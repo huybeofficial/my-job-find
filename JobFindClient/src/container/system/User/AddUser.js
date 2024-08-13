@@ -14,6 +14,7 @@ const AddUser = () => {
     const [birthday, setbirthday] = useState('');
     const [isChangeDate, setisChangeDate] = useState(false)
     const [isActionADD, setisActionADD] = useState(true)
+    const [errorForm, setErrorForm] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const { id } = useParams();
     const [inputValues, setInputValues] = useState({
@@ -78,6 +79,7 @@ const AddUser = () => {
         setIsLoading(true)
         if (isActionADD === true) {
             let params = {
+                ...inputValues,
                 email : inputValues.email,
                 firstName: inputValues.firstName,
                 lastName: inputValues.lastName,
@@ -85,6 +87,7 @@ const AddUser = () => {
                 roleCode: inputValues.roleCode,
                 genderCode: inputValues.genderCode,
                 phonenumber: inputValues.phonenumber,
+                password: inputValues.password,
                 image: 'https://res.cloudinary.com/bingo2706/image/upload/v1642521841/dev_setups/l60Hf_blyqhb.png',
                 dob: new Date(birthday).getTime(),
             }
@@ -100,6 +103,7 @@ const AddUser = () => {
                     setInputValues({
                         ...inputValues,
                         ["firstName"]: '',
+                        ["email"]: '',
                         ["lastName"]: '',
                         ["address"]: '',
                         ["phonenumber"]: '',
@@ -242,6 +246,19 @@ const AddUser = () => {
                                     </div>
                                 </div>
                             </div>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div className="form-group row">
+                                        <label className="col-sm-3 col-form-label">Mật khẩu đăng nhập</label>
+                                        <div className="col-sm-9">
+                                            <input type="password" value={inputValues.password} name="password" onChange={(event) => handleOnChange(event)} className="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-md-6">
+                                    
+                                </div>
+                            </div>
                             <button type="button" onClick={() => handleSaveUser()} className="btn1 btn1-primary1 btn1-icon-text">
                                 <i class="ti-file btn1-icon-prepend"></i>
                                 Lưu
@@ -257,7 +274,7 @@ const AddUser = () => {
                         position: 'absolute', right: '50%',
                         justifyContent: 'center', alignItems: 'center'
                     }}>
-                        <Spinner animation="border"  ></Spinner>
+                        <Spinner animation="border"  > </Spinner>
                     </div>
 
                 </Modal>

@@ -8,7 +8,7 @@ let handleCreateNewAllCode = (data) => {
             if (!data.type || !data.value || !data.code) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
 
@@ -53,7 +53,7 @@ let getAllCodeService = (typeInput) => {
             if (!typeInput) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
 
@@ -76,7 +76,7 @@ let handleUpdateAllCode = (data) => {
             if (!data.value || !data.code) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let res = await db.Allcode.findOne({
@@ -127,7 +127,7 @@ let getDetailAllcodeByCode = (code) => {
             if (!code) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let data = await db.Allcode.findOne({
@@ -157,7 +157,7 @@ let handleDeleteAllCode = (code) => {
             if (!code) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let foundAllCode = await db.Allcode.findOne({
@@ -198,7 +198,7 @@ let getListAllCodeService = (data) => {
             if (!data.type || !data.limit || !data.offset) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let objectFilter = {
@@ -264,7 +264,7 @@ let handleCreateNewSkill = (data) => {
             if (!data.name || !data.categoryJobCode) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
 
@@ -302,7 +302,7 @@ let handleDeleteSkill = (id) => {
             if (!id) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let foundSkill = await db.Skill.findOne({
@@ -348,7 +348,7 @@ let getAllSkillByJobCode = (categoryJobCode) => {
             if (!categoryJobCode) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             }
             else {
@@ -386,7 +386,7 @@ let getListSkill = (data) => {
             if (!data.limit || !data.offset) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             }
             else {
@@ -436,7 +436,7 @@ let handleUpdateSkill = (data) => {
             if (!data.name || !data.id || !data.categoryJobCode) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let res = await db.Skill.findOne({
@@ -480,7 +480,7 @@ let getDetailSkillById = (id) => {
             if (!id) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let data = await db.Skill.findOne({

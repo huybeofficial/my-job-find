@@ -56,7 +56,7 @@ const About = () => {
                             <img src="assets/img/283498863_1685506338469992_1561922105950617700_n.jpg" alt="" />
                             <div class="support-img-cap text-center">
                                 <p>Since</p>
-                                <span>2022</span>
+                                <span>2024</span>
                             </div>
                         </div>
                     </div>

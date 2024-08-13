@@ -2,13 +2,13 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAuatne7IIqZUFIzN4lxyBsI-eeJddTx8I",
-    authDomain: "jobfind-e388c.firebaseapp.com",
-    projectId: "jobfind-e388c",
-    storageBucket: "jobfind-e388c.appspot.com",
-    messagingSenderId: "847800818709",
-    appId: "1:847800818709:web:4f5a04d140b02d06a7421c",
-    measurementId: "G-N2KYK2RJ2Q"
+    apiKey: "AIzaSyCyyI-WJV33wobsPi0o2-VCEtbEde6qNm8",
+    authDomain: "verify-otp-job-finder.firebaseapp.com",
+    projectId: "verify-otp-job-finder",
+    storageBucket: "verify-otp-job-finder.appspot.com",
+    messagingSenderId: "975832023455",
+    appId: "1:975832023455:web:6f48c61829bf29311b3daa",
+    measurementId: "G-X8LLRG66RL"
 };
 
 // Initialize Firebase

@@ -171,9 +171,9 @@ const DetailCompany = () => {
                                     </div>
                                     <p>Chia sẻ qua mạng xã hội</p>
                                     <div className="box-share">
-                                        <a href="http://www.facebook.com/sharer/sharer.php?u=https://www.topcv.vn/cong-ty/cong-ty-co-phan-tap-doan-hoa-sen/8734.html" target="_blank"><img src="https://www.topcv.vn/v4/image/job-detail/share/facebook.png" alt="" /></a>
-                                        <a href="https://twitter.com/intent/tweet?url=https://www.topcv.vn/cong-ty/cong-ty-co-phan-tap-doan-hoa-sen/8734.html" target="_blank"><img src="https://www.topcv.vn/v4/image/job-detail/share/twitter.png" alt="" /></a>
-                                        <a href="https://www.linkedin.com/cws/share?url=https://www.topcv.vn/cong-ty/cong-ty-co-phan-tap-doan-hoa-sen/8734.html" target="_blank"><img src="https://www.topcv.vn/v4/image/job-detail/share/linkedin.png" alt="" /></a>
+                                        <a href={`http://www.facebook.com/sharer/sharer.php?u=${window.location.href}`} target="_blank"><img src="https://www.topcv.vn/v4/image/job-detail/share/facebook.png" alt="" /></a>
+                                        <a href={`https://twitter.com/intent/tweet?url=${window.location.href}`} target="_blank"><img src="https://www.topcv.vn/v4/image/job-detail/share/twitter.png" alt="" /></a>
+                                        <a href={`https://www.linkedin.com/cws/share?url=${window.location.href}`} target="_blank"><img src="https://www.topcv.vn/v4/image/job-detail/share/linkedin.png" alt="" /></a>
                                     </div>
                                 </div>
                             </div>

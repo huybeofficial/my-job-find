@@ -14,7 +14,7 @@ let getAllPackage = (data) => {
             if (!data.limit || !data.offset) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let objectFilter = {
@@ -43,7 +43,7 @@ let getPackageByType = (data) => {
             if (data.isHot === '') {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let packagePost = await db.PackagePost.findAll({
@@ -67,7 +67,7 @@ let getPackageById = (data) => {
             if (!data.id) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let packagePost = await db.PackagePost.findOne({
@@ -99,7 +99,7 @@ let getPaymentLink = (data) => {
             if (!data.id || !data.amount) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
 
                 })
             }
@@ -237,7 +237,7 @@ let setActiveTypePackage = (data) => {
             if (!data.id || data.isActive === '') {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let packagePost = await db.PackagePost.findOne({
@@ -273,7 +273,7 @@ let creatNewPackagePost = (data) => {
             if (!data.name || !data.price || !data.value || data.isHot === '') {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let packagePost = await db.PackagePost.create({
@@ -316,7 +316,7 @@ let updatePackagePost = (data) => {
             if (!data.name || !data.price || !data.value || data.isHot === '' || !data.id) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let packagePost = await db.PackagePost.findOne({
@@ -361,7 +361,7 @@ let getStatisticalPackage = (data) => {
             if (!data.fromDate || !data.toDate) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             }
             else {
@@ -433,7 +433,7 @@ let getHistoryTrade = (data) => {
             if (!data.companyId) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let company = await db.Company.findOne({
@@ -511,7 +511,7 @@ let getSumByYear = (data) => {
             if (!data.year) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                     let objectFilter = {

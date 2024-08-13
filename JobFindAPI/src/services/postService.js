@@ -37,7 +37,7 @@ let handleCreateNewPost = (data) => {
             ) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let user = await db.User.findOne({
@@ -129,7 +129,7 @@ let handleReupPost = (data) => {
             if (!data.userId || !data.postId || !data.timeEnd) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let user = await db.User.findOne({
@@ -217,7 +217,7 @@ let handleUpdatePost = (data) => {
             ) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let post = await db.Post.findOne({
@@ -293,7 +293,7 @@ let handleBanPost = (data) => {
             if (!data.postId || !data.note || !data.userId) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let foundPost = await db.Post.findOne({
@@ -341,7 +341,7 @@ let handleActivePost = (data) => {
             if (!data.id || !data.userId || !data.note) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let foundPost = await db.Post.findOne({
@@ -388,7 +388,7 @@ let handleAcceptPost = (data) => {
             if (!data.id || !data.statusCode) {
                 resolve({
                     errCode: 1,
-                    errMessage: `Missing required parameters !`
+                    errMessage: `Thiếu tham số bắt buộc !`
                 })
             } else {
                 let foundPost = await db.Post.findOne({
@@ -444,7 +444,7 @@ let getListPostByAdmin = (data) => {
             if (!data.limit || !data.offset || !data.companyId) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let company = await db.Company.findOne({
@@ -542,7 +542,7 @@ let getAllPostByAdmin = (data) => {
             if (!data.limit || !data.offset) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let objectFilter = {
@@ -620,7 +620,7 @@ let getDetailPostById = (id) => {
             if (!id) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let post = await db.Post.findOne({
@@ -836,7 +836,7 @@ let getListNoteByPost = (data) => {
             if (!data.id) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameters !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let res = await db.Note.findAndCountAll({

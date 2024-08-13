@@ -10,6 +10,7 @@ import moment from 'moment';
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import CommonUtils from '../../../util/CommonUtils';
+import './style.scss'
 
 const UserInfo = () => {
     const [birthday, setbirthday] = useState('');
@@ -197,19 +198,6 @@ const UserInfo = () => {
                                             <input onChange={(event) => handleOnChangeImage(event)} type="file" className="form-control form-file" />
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col-md-6">
-                                    <div className="form-group row">
-                                        <label className="col-sm-3 col-form-label">Hình ảnh hiển thị</label>
-                                        <div className="col-sm-9">
-                                            <div style={{ backgroundImage: `url(${inputValues.imageReview})` }} onClick={() => openPreviewImage()} className="box-img-preview"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6">
                                     <div className="form-group row">
                                         <label className="col-sm-3 col-form-label">Email</label>
                                         <div className="col-sm-9">
@@ -217,6 +205,15 @@ const UserInfo = () => {
                                         </div>
                                     </div>
                                 </div>
+                                <div className="col-md-6">
+                                    <div className="form-group row h-100">
+                                        <label className="col-sm-3 col-form-label">Hình ảnh hiển thị</label>
+                                        <div className="col-sm-9">
+                                            <div style={{ backgroundImage: `url(${inputValues.imageReview})` }} onClick={() => openPreviewImage()} className="box-img-preview-user"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
 
