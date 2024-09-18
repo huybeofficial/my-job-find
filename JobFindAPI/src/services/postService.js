@@ -14,7 +14,7 @@ let sendmail = (note, userMail, link = null) => {
     var mailOptions = {
         from: process.env.EMAIL_APP,
         to: userMail,
-        subject: 'Thông báo từ trang Job Finder',
+        subject: 'Thông báo từ trang Vào Việc',
         html: note
     };
     if (link)
@@ -22,6 +22,8 @@ let sendmail = (note, userMail, link = null) => {
         mailOptions.html = note + ` <br>
         xem thông tin bài viết <a href='${process.env.URL_REACT}/${link}'>Tại đây</a> `
     }
+
+    console.log(mailOptions)
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {

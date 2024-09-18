@@ -7,21 +7,29 @@ import Otp from './Otp';
 import handleValidate from '../../util/Validation';
 import { Link } from 'react-router-dom'
 const Register = () => {
+
+    const firstNameRefs = React.createRef()
+    const lastNameRefs = React.createRef()
+    const phoneNumberRefs = React.createRef()
+    const emailRefs = React.createRef()
+    const passwordRefs = React.createRef()
+    const againPassRefs = React.createRef()
+
     const [inputValidates, setValidates] = useState({
-        phonenumber: true, password: true, firstName: true, lastName: true, email: true,againPass: true
+        phoneNumber: true, password: true, firstName: true, lastName: true, email: true, againPass: true
     })
     const [inputValues, setInputValues] = useState({
-        phonenumber: '', firstName: '', lastName: '', password: '', isOpen: false, dataUser: {}, roleCode: '',email:'',againPass:'', genderCode: ''
+        phoneNumber: '', firstName: '', lastName: '', password: '', isOpen: false, dataUser: {}, roleCode: '', email: '', againPass: '', genderCode: ''
     });
     let { data: dataRole } = useFetchAllcode('ROLE');
-    let { data : dataGender} = useFetchAllcode('GENDER');
+    let { data: dataGender } = useFetchAllcode('GENDER');
 
     if (dataRole && dataRole.length > 0) {
-        dataRole = dataRole.filter(item => item.code !== "ADMIN" && item.code!== "COMPANY")
+        dataRole = dataRole.filter(item => item.code !== "ADMIN" && item.code !== "COMPANY")
 
     }
     if (dataGender && dataGender.length > 0 && inputValues.genderCode === '' && dataRole && dataRole.length > 0 && inputValues.roleCode === '') {
-        setInputValues({ ...inputValues, ["genderCode"]: dataGender[0].code, ["roleCode"]: dataRole[0].code })
+        setInputValues({ ...inputValues, genderCode: dataGender[0].code, roleCode: dataRole[0].code })
     }
 
     const handleOnChange = event => {
@@ -29,38 +37,66 @@ const Register = () => {
         setInputValues({ ...inputValues, [name]: value });
     };
 
+    const pressEnterEvent = (event) => {
+        if (event.keyCode === 13) {
+            switch (event.target.id) {
+                case "firstName":
+                    firstNameRefs && lastNameRefs.current.focus();
+                    break;
+                case "lastName":
+                    lastNameRefs && phoneNumberRefs.current.focus();
+                    break;
+                case "phoneNumber":
+                    phoneNumberRefs && emailRefs.current.focus();
+                    break;
+                case "email":
+                    emailRefs && passwordRefs.current.focus();
+                    break;
+                case "password":
+                    passwordRefs && againPassRefs.current.focus();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+
     let handleOpenVerifyOTP = async () => {
-        let checkPhonenumber = handleValidate(inputValues.phonenumber, "phone")
+        let checkPhonenumber = handleValidate(inputValues.phoneNumber, "phone")
         let checkPassword = handleValidate(inputValues.password, "password")
         let checkFirstName = handleValidate(inputValues.firstName, "isEmpty")
         let checkLastName = handleValidate(inputValues.lastName, "isEmpty")
-        let checkEmail = handleValidate(inputValues.email,"email")
-        if (!(checkPhonenumber === true && checkPassword === true && checkFirstName === true && checkLastName === true && checkEmail === true)) {
-            setValidates({
-                phonenumber: checkPhonenumber, password: checkPassword, firstName: checkFirstName, lastName: checkLastName, email: checkEmail
+        let checkEmail = handleValidate(inputValues.email, "email")
+        if (!(checkPhonenumber === true && checkPassword === true && checkFirstName === true && checkLastName === true && checkEmail === true))
+            return setValidates({
+                phoneNumber: checkPhonenumber,
+                password: checkPassword,
+                firstName: checkFirstName,
+                lastName: checkLastName,
+                email: checkEmail
             })
-            return
-        }
 
-        if (inputValues.againPass !== inputValues.password)
-        {
-            toast.error("Mật khẩu nhập lại không trùng khớp!")
+        if (inputValues.againPass !== inputValues.password) {
+            toast.error("Mật khẩu không trùng khớp!")
             return
         }
-        let res = await checkUserPhoneService(inputValues.phonenumber)
+        let res = await checkUserPhoneService(inputValues.phoneNumber)
         if (res === true) {
             toast.error("Số điện thoại đã tồn tại !")
         } else {
             setInputValues({
-                ...inputValues, ["dataUser"]:
-                {
-                    phonenumber: inputValues.phonenumber,
+                ...inputValues,
+                isOpen: true,
+                dataUser: {
+                    phoneNumber: inputValues.phoneNumber,
                     firstName: inputValues.firstName,
                     lastName: inputValues.lastName,
                     password: inputValues.password,
                     roleCode: inputValues.roleCode,
                     email: inputValues.email
-                }, ["isOpen"]: true
+                },
+
             })
         }
 
@@ -81,31 +117,49 @@ const Register = () => {
                                         <h6 className="font-weight-light">Đăng ký dễ dàng chỉ vài bước đơn giản</h6>
                                         <form className="pt-3">
                                             <div className="form-group">
-                                                <input type="text" value={inputValues.firstName} name="firstName" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputUsername1" placeholder="Họ" />
+                                                <input type="text" placeholder="Họ" className="form-control form-control-lg" name="firstName" id="firstName"
+                                                    value={inputValues.firstName} ref={firstNameRefs}
+                                                    onChange={(event) => handleOnChange(event)} onKeyUp={(e) => pressEnterEvent(e)}
+                                                />
                                                 {inputValidates.firstName && <p style={{ color: 'red' }}>{inputValidates.firstName}</p>}
                                             </div>
                                             <div className="form-group">
-                                                <input type="text" value={inputValues.lastName} name="lastName" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputUsername1" placeholder="Tên" />
+                                                <input type="text" placeholder="Tên" className="form-control form-control-lg" name="lastName" id="lastName"
+                                                    value={inputValues.lastName} ref={lastNameRefs}
+                                                    onChange={(event) => handleOnChange(event)} onKeyUp={(e) => pressEnterEvent(e)}
+                                                />
                                                 {inputValidates.lastName && <p style={{ color: 'red' }}>{inputValidates.lastName}</p>}
                                             </div>
                                             <div className="form-group">
-                                                <input type="number" value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Số điện thoại" />
-                                                {inputValidates.phonenumber && <p style={{ color: 'red' }}>{inputValidates.phonenumber}</p>}
+                                                <input type="text" placeholder="Số điện thoại" className="form-control form-control-lg" name="phoneNumber" id="phoneNumber"
+                                                    value={inputValues.phoneNumber} ref={phoneNumberRefs}
+                                                    onChange={(event) => handleOnChange(event)} onKeyUp={(e) => pressEnterEvent(e)}
+                                                />
+                                                {inputValidates.phoneNumber && <p style={{ color: 'red' }}>{inputValidates.phoneNumber}</p>}
                                             </div>
                                             <div className="form-group">
-                                                <input type="text" value={inputValues.email} name="email" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" placeholder="Email" />
+                                                <input type="email" placeholder="Email" className="form-control form-control-lg" name="email" id="email"
+                                                    value={inputValues.email} ref={emailRefs}
+                                                    onChange={(event) => handleOnChange(event)} onKeyUp={(e) => pressEnterEvent(e)}
+                                                />
                                                 {inputValidates.email && <p style={{ color: 'red' }}>{inputValidates.email}</p>}
                                             </div>
                                             <div className="form-group">
-                                                <input type="password" value={inputValues.password} name="password" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Mật khẩu" />
+                                                <input type="password" placeholder="Mật khẩu" className="form-control form-control-lg" name="password" id="password"
+                                                    value={inputValues.password} ref={passwordRefs}
+                                                    onChange={(event) => handleOnChange(event)} onKeyUp={(e) => pressEnterEvent(e)}
+                                                />
                                                 {inputValidates.password && <p style={{ color: 'red' }}>{inputValidates.password}</p>}
                                             </div>
                                             <div className="form-group">
-                                                <input type="password" value={inputValues.againPass} name="againPass" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" placeholder="Nhập lại mật khẩu" />
+                                                <input type="password" placeholder="Mật khẩu" className="form-control form-control-lg" name="againPass" id="againPass"
+                                                    value={inputValues.againPass} ref={againPassRefs}
+                                                    onChange={(event) => handleOnChange(event)} onKeyUp={(e) => pressEnterEvent(e)}
+                                                />
                                                 {inputValidates.againPass && <p style={{ color: 'red' }}>{inputValidates.againPass}</p>}
                                             </div>
                                             <div className="form-group">
-                                                <select style={{color:'black'}} className="form-control" value={inputValues.roleCode} name="roleCode" onChange={(event) => handleOnChange(event)}>
+                                                <select style={{ color: 'black' }} className="form-control" value={inputValues.roleCode} name="roleCode" onChange={(event) => handleOnChange(event)} onKeyUp={(e) => pressEnterEvent(e)}>
                                                     {dataRole && dataRole.length > 0 &&
                                                         dataRole.map((item, index) => {
                                                             if (item.code !== "ADMIN" && item.code !== "COMPANY") {
@@ -119,15 +173,15 @@ const Register = () => {
                                                 </select>
                                             </div>
                                             <div className="form-group">
-                                            <select style={{color: "black"}} className="form-control" value={inputValues.genderCode} name="genderCode" onChange={(event) => handleOnChange(event)}>
-                                                {dataGender && dataGender.length > 0 &&
-                                                    dataGender.map((item, index) => {
-                                                        return (
-                                                            <option key={index} value={item.code}>{item.value}</option>
-                                                        )
-                                                    })
-                                                }
-                                            </select>
+                                                <select style={{ color: "black" }} className="form-control" value={inputValues.genderCode} name="genderCode" onChange={(event) => handleOnChange(event)} onKeyUp={(e) => pressEnterEvent(e)}>
+                                                    {dataGender && dataGender.length > 0 &&
+                                                        dataGender.map((item, index) => {
+                                                            return (
+                                                                <option key={index} value={item.code}>{item.value}</option>
+                                                            )
+                                                        })
+                                                    }
+                                                </select>
                                             </div>
                                             <div className="mt-3">
                                                 <a onClick={() => handleOpenVerifyOTP()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >Đăng ký</a>

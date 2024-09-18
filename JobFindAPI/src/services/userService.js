@@ -18,7 +18,7 @@ let sendmail = (note, userMail, link = null) => {
     let mailOptions = {
         from: process.env.EMAIL_APP,
         to: userMail,
-        subject: 'Thông báo từ trang Job Finder',
+        subject: 'Thông báo từ trang Vào Việc',
         html: note
     };
     if (link)

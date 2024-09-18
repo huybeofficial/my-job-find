@@ -89,16 +89,16 @@ const Header = () => {
                                                                 Đổi mật khẩu
                                                             </Link>
                                                             <a onClick={() => handleLogout()} className="dropdown-item">
-                                <i className="ti-power-off text-primary" />
-                                Đăng xuất
-                            </a>
+                                                                <i className="ti-power-off text-primary" />
+                                                                Đăng xuất
+                                                            </a>
                                                         </div>
                                                     </li>
                                                 </ul>
                                                 :
                                                 <>
-                                                    <Link to={'/register'} class="btn head-btn1">Đăng kí</Link>
-                                                    <Link to={'/login'} class="btn head-btn2">Đăng nhập</Link>
+                                                    {/* <Link to={'/register'} class="btn mr-2">Đăng ký</Link> */}
+                                                    <Link to={'/login'} class="btn">Đăng nhập</Link>
                                                 </>
                                             }
 

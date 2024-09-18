@@ -126,6 +126,7 @@ const AddUser = () => {
                 address: inputValues.address,
                 roleCode: inputValues.roleCode,
                 genderCode: inputValues.genderCode,
+                password: inputValues.password,
                 dob: isChangeDate === false ? inputValues.dob : new Date(birthday).getTime()
             })
             setTimeout(() => {

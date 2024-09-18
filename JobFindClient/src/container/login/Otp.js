@@ -37,15 +37,15 @@ const Otp = (props) => {
     let onSignInSubmit = async (isResend) => {
         if (!isResend)
             configureCaptcha()
-        let phoneNumber = props.dataUser.phonenumber
+        let phoneNumber = props.dataUser.phoneNumber
         if (phoneNumber) {
             phoneNumber = "+84" + phoneNumber.slice(1);
         }
 
 
-        console.log("check phonenumber", phoneNumber)
+        console.log("check phoneNumber", phoneNumber)
         const appVerifier = window.recaptchaVerifier;
-
+        console.log(appVerifier);
 
         await firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
             .then((confirmationResult) => {
@@ -56,7 +56,7 @@ const Otp = (props) => {
 
                 // ...
             }).catch((error) => {
-                console.log(error)
+                console.log(error.message)
                 toast.error("Gửi mã thất bại !")
             });
     }
@@ -72,14 +72,14 @@ const Otp = (props) => {
                     password: props.dataUser.password,
                     firstName: props.dataUser.firstName,
                     lastName: props.dataUser.lastName,
-                    phonenumber: props.dataUser.phonenumber,
+                    phoneNumber: props.dataUser.phoneNumber,
                     roleCode: props.dataUser.roleCode,
                     email: props.dataUser.email,
                     image: 'https://res.cloudinary.com/bingo2706/image/upload/v1642521841/dev_setups/l60Hf_blyqhb.png',
                 })
                 if (res && res.errCode === 0) {
                     toast.success("Tạo tài khoản thành công")
-                    handleLogin(props.dataUser.phonenumber, props.dataUser.password)
+                    handleLogin(props.dataUser.phoneNumber, props.dataUser.password)
 
 
                 } else {
@@ -90,6 +90,7 @@ const Otp = (props) => {
 
             // ...
         }).catch((error) => {
+            console.log(error.message);
             // User couldn't sign in (bad verification code?)
             // ...
             toast.error("Mã OTP không đúng !")
@@ -98,10 +99,10 @@ const Otp = (props) => {
     let resendOTP = async () => {
         await onSignInSubmit(true)
     }
-    let handleLogin = async (phonenumber, password) => {
+    let handleLogin = async (phoneNumber, password) => {
 
         let res = await handleLoginService({
-            phonenumber: phonenumber,
+            phoneNumber: phoneNumber,
             password: password
         })
 
@@ -130,7 +131,7 @@ const Otp = (props) => {
                         <img src="https://raw.githubusercontent.com/Rustcodeweb/OTP-Verification-Card-Design/main/mobile.png" />
                         <h5 style={{ color: '#fff' }} className="mb-2">XÁC THỰC OTP</h5>
                         <div>
-                            <small>mã đã được gửi tới sdt {props.dataUser && props.dataUser.phonenumber}</small>
+                            <small>mã đã được gửi tới sdt {props.dataUser && props.dataUser.phoneNumber}</small>
                         </div>
                     </div>
                     <div className="input-container d-flex flex-row justify-content-center mt-2">
