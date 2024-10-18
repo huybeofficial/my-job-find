@@ -5,7 +5,7 @@ import { RecruitmentService } from '../../../service/userService';
 const Recruitment = () => {
 
     const [inputValues, setInputValues] = useState({
-        phonenumber: ''
+        phoneNumber: ''
     });
 
     const [user, setUser] = useState({})
@@ -21,14 +21,14 @@ const Recruitment = () => {
     };
     let handleSubmit = async () => {
         let res = await RecruitmentService({
-            phonenumber: inputValues.phonenumber,
+            phoneNumber: inputValues.phoneNumber,
             companyId: user.companyId
         })
         if (res && res.errCode === 0) {
             toast.success("Tuyển dụng thành công !");
             setInputValues({
                 ...inputValues,
-                ["phonenumber"]: ''
+                ["phoneNumber"]: ''
             })
         } else {
             toast.error(res.errMessage)
@@ -48,7 +48,7 @@ const Recruitment = () => {
                                     <div className="form-group row">
                                         <label className="col-sm-3 col-form-label">Số điện thoại</label>
                                         <div className="col-sm-9">
-                                            <input type="text" value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control" />
+                                            <input type="text" value={inputValues.phoneNumber} name="phoneNumber" onChange={(event) => handleOnChange(event)} className="form-control" />
                                         </div>
                                     </div>
                                 </div>

@@ -1,7 +1,6 @@
 const { Op, and, where } = require("sequelize");
 import e from "express";
 import db from "../models/index";
-const cloudinary = require('../utils/cloudinary');
 require('dotenv').config();
 var nodemailer = require('nodemailer');
 let sendmail = (note, userMail, link = null) => {
@@ -19,8 +18,7 @@ let sendmail = (note, userMail, link = null) => {
         subject: 'Thông báo từ trang Vào Việc',
         html: note
     };
-    if (link)
-    {
+    if (link) {
         mailOptions.html = note + ` <br>
         xem thông tin công ty <a href='${process.env.URL_REACT}/${link}'>Tại đây</a> `
     }
@@ -75,7 +73,7 @@ let checkUserPhone = (userPhone) => {
                 })
             } else {
                 let account = await db.Account.findOne({
-                    where: { phonenumber: userPhone }
+                    where: { phoneNumber: userPhone }
                 })
                 if (account) {
                     resolve(true)
@@ -94,7 +92,7 @@ let checkUserPhone = (userPhone) => {
 let handleCreateNewCompany = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.name || !data.phonenumber || !data.address
+            if (!data.name || !data.phoneNumber || !data.address
                 || !data.descriptionHTML || !data.descriptionMarkdown
                 || !data.amountEmployer || !data.userId) {
                 resolve({
@@ -112,18 +110,13 @@ let handleCreateNewCompany = (data) => {
                     let thumbnailUrl = ""
                     let coverimageUrl = ""
                     if (data.thumbnail && data.coverimage) {
-
-                        const uploadedThumbnailResponse = await cloudinary.uploader.upload(data.thumbnail, {
-                            upload_preset: 'dev_setups'
-                        })
-                        const uploadedCoverImageResponse = await cloudinary.uploader.upload(data.coverimage, {
-                            upload_preset: 'dev_setups'
-                        })
-                        thumbnailUrl = uploadedThumbnailResponse.url
-                        coverimageUrl = uploadedCoverImageResponse.url
+                        try {
+                            thumbnailUrl = await uploadImage(data.thumbnail)
+                            coverimageUrl = await uploadImage(data.coverimage)
+                        } catch (error) {
+                            console.error('Error uploading image:', error);
+                        }
                     }
-
-
                     let company = await db.Company.create({
                         name: data.name,
                         thumbnail: thumbnailUrl,
@@ -132,7 +125,7 @@ let handleCreateNewCompany = (data) => {
                         descriptionMarkdown: data.descriptionMarkdown,
                         website: data.website,
                         address: data.address,
-                        phonenumber: data.phonenumber,
+                        phoneNumber: data.phoneNumber,
                         amountEmployer: data.amountEmployer,
                         taxnumber: data.taxnumber,
                         statusCode: 'S1',
@@ -161,7 +154,7 @@ let handleCreateNewCompany = (data) => {
                         resolve({
                             errCode: 0,
                             errMessage: 'Đã tạo công ty thành công',
-                            companyId : company.id
+                            companyId: company.id
                         })
                     }
                     else {
@@ -180,7 +173,7 @@ let handleCreateNewCompany = (data) => {
 let handleUpdateCompany = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.id || !data.name || !data.phonenumber || !data.address || !data.descriptionHTML || !data.descriptionMarkdown || !data.amountEmployer) {
+            if (!data.id || !data.name || !data.phoneNumber || !data.address || !data.descriptionHTML || !data.descriptionMarkdown || !data.amountEmployer) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Thiếu tham số bắt buộc !'
@@ -203,20 +196,18 @@ let handleUpdateCompany = (data) => {
                     if (res) {
                         if (res.statusCode == "S1") {
                             if (data.thumbnail) {
-                                let thumbnailUrl = ""
-                                const uploadedThumbnailResponse = await cloudinary.uploader.upload(data.thumbnail, {
-                                    upload_preset: 'dev_setups'
-                                })
-                                thumbnailUrl = uploadedThumbnailResponse.url
-                                res.thumbnail = thumbnailUrl
+                                try {
+                                    res.thumbnail = await uploadImage(data.thumbnail)
+                                } catch (error) {
+                                    console.error('Error uploading image:', error);
+                                }
                             }
                             if (data.coverimage) {
-                                let coverImageUrl = ""
-                                const uploadedcoverImageResponse = await cloudinary.uploader.upload(data.coverimage, {
-                                    upload_preset: 'dev_setups'
-                                })
-                                coverImageUrl = uploadedcoverImageResponse.url
-                                res.coverimage = coverImageUrl
+                                try {
+                                    res.coverimage = await uploadImage(data.coverimage)
+                                } catch (error) {
+                                    console.error('Error uploading image:', error);
+                                }
                             }
                             res.name = data.name
                             res.descriptionHTML = data.descriptionHTML
@@ -225,12 +216,12 @@ let handleUpdateCompany = (data) => {
                             res.address = data.address
                             res.amountEmployer = data.amountEmployer
                             res.taxnumber = data.taxnumber
-                            res.phonenumber = data.phonenumber
+                            res.phoneNumber = data.phoneNumber
                             if (data.file) {
                                 res.file = data.file
                                 res.censorCode = 'CS3'
                             }
-                            else if (res.file){
+                            else if (res.file) {
                                 res.censorCode = 'CS3'
                             }
                             else {
@@ -346,8 +337,7 @@ let handleAccecptCompany = (data) => {
                     raw: false
                 })
                 if (foundCompany) {
-                    if (data.note == 'null')
-                    {
+                    if (data.note == 'null') {
                         foundCompany.censorCode = "CS1"
                     }
                     else {
@@ -362,10 +352,10 @@ let handleAccecptCompany = (data) => {
                         }
                     })
                     if (data.note != 'null') {
-                        sendmail(`Công ty bạn đã bị từ chối vì: ${note}`, user.email,"admin/edit-company")
+                        sendmail(`Công ty bạn đã bị từ chối vì: ${note}`, user.email, "admin/edit-company")
                     }
                     else {
-                        sendmail(`Công ty của bạn đã được kiểm duyệt thành công`,user.email,`detail-company/${foundCompany.id}`)
+                        sendmail(`Công ty của bạn đã được kiểm duyệt thành công`, user.email, `detail-company/${foundCompany.id}`)
                     }
                     resolve({
                         errCode: 0,
@@ -388,7 +378,7 @@ let handleAccecptCompany = (data) => {
 let handleAddUserCompany = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.phonenumber || !data.companyId) {
+            if (!data.phoneNumber || !data.companyId) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Thiếu tham số bắt buộc !'
@@ -396,11 +386,11 @@ let handleAddUserCompany = (data) => {
             } else {
                 let company = await db.Company.findOne({ where: { id: data.companyId } })
                 if (company) {
-                    let isExist = await checkUserPhone(data.phonenumber);
+                    let isExist = await checkUserPhone(data.phoneNumber);
                     if (isExist) {
                         let account = await db.Account.findOne({
                             where: {
-                                phonenumber: data.phonenumber
+                                phoneNumber: data.phoneNumber
                             },
                             raw: false
                         })
@@ -465,11 +455,12 @@ let getListCompany = (data) => {
                 let objectFilter = {
                     offset: +data.offset,
                     limit: +data.limit,
-                    where: {statusCode : 'S1'}
+                    where: { statusCode: 'S1' }
                 }
                 if (data.search) {
-                    objectFilter.where = { ...objectFilter.where,
-                        name: {[Op.like]: `%${data.search}%`}
+                    objectFilter.where = {
+                        ...objectFilter.where,
+                        name: { [Op.like]: `%${data.search}%` }
                     }
                 }
                 let company = await db.Company.findAndCountAll(objectFilter)
@@ -545,8 +536,7 @@ let getDetailCompanyById = (id) => {
                             },
                         ]
                     })
-                    if (company.file)
-                    {
+                    if (company.file) {
                         company.file = new Buffer(company.file, 'base64').toString('binary')
                     }
                     resolve({
@@ -572,13 +562,13 @@ let getDetailCompanyByUserId = (data) => {
                 let company
                 if (data.userId !== 'null') {
                     let user = await db.User.findOne({
-                        where: {id: data.userId},
+                        where: { id: data.userId },
                         attributes: {
                             exclude: ['userId']
                         }
                     })
                     company = await db.Company.findOne({
-                        where : {id: user.companyId}
+                        where: { id: user.companyId }
                     })
                 }
                 else {
@@ -594,7 +584,7 @@ let getDetailCompanyByUserId = (data) => {
                 }
                 else {
                     if (company.file) {
-                        company.file = new Buffer(company.file,'base64').toString('binary')
+                        company.file = new Buffer(company.file, 'base64').toString('binary')
                     }
                     resolve({
                         errCode: 0,
@@ -734,16 +724,16 @@ let getAllCompanyByAdmin = (data) => {
                     objectFilter.where = {
                         [Op.or]: [
                             {
-                                name: {[Op.like]: `%${data.search}%`}
+                                name: { [Op.like]: `%${data.search}%` }
                             },
                             {
-                                id: {[Op.like]: `%${data.search}%`}
+                                id: { [Op.like]: `%${data.search}%` }
                             }
                         ]
                     }
                 }
-                if (data.censorCode){
-                    objectFilter.where = {...objectFilter.where, censorCode: data.censorCode}
+                if (data.censorCode) {
+                    objectFilter.where = { ...objectFilter.where, censorCode: data.censorCode }
                 }
                 let company = await db.Company.findAndCountAll(objectFilter)
                 resolve({

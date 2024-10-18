@@ -143,7 +143,7 @@ const JobDetail = () => {
                                         <ul>
                                             <li>Website     : <span>{dataPost.companyData.website}</span></li>
                                             <li>Địa chỉ     : <span>{dataPost.companyData.address}</span></li>
-                                            <li>Điện thoại  : <span>{dataPost.companyData.phonenumber}</span></li>
+                                            <li>Điện thoại  : <span>{dataPost.companyData.phoneNumber}</span></li>
                                             <li>Mã số thuế  : <span>{dataPost.companyData.taxnumber}</span></li>
                                             <li>Số nhân viên: <span>{dataPost.companyData.amountEmployer}</span></li>
                                         </ul>

@@ -250,7 +250,7 @@ const ManageCompany = () => {
                                                     <td>{index + 1 + numberPage * PAGINATION.pagerow}</td>
                                                     <td>{item.id}</td>
                                                     <td>{item.name}</td>
-                                                    <td>{item.phonenumber}</td>
+                                                    <td>{item.phoneNumber}</td>
                                                     <td>{item.taxnumber}</td>
                                                     <td><label className={item.statusCompanyData.code == 'S1' ? 'badge badge-success' : 'badge badge-danger'}>{item.statusCompanyData.value}</label></td>
                                                     <td><label className={item.censorData.code == 'CS1' ? 'badge badge-success' : (item.censorData.code == 'CS3'? 'badge badge-warning'  : 'badge badge-danger')}>{item.censorData.value}</label></td>

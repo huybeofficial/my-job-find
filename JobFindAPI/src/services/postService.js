@@ -23,8 +23,6 @@ let sendmail = (note, userMail, link = null) => {
         xem thông tin bài viết <a href='${process.env.URL_REACT}/${link}'>Tại đây</a> `
     }
 
-    console.log(mailOptions)
-
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
         } else {

@@ -113,7 +113,7 @@ const ManageEmployer = () => {
                                                 <tr key={index}>
                                                     <td>{index + 1 + numberPage * PAGINATION.pagerow}</td>
                                                     <td>{`${item.firstName} ${item.lastName}`}</td>
-                                                    <td>{item.userAccountData.phonenumber}</td>
+                                                    <td>{item.userAccountData.phoneNumber}</td>
                                                     <td>{item.genderData.value}</td>
                                                     <td>{date}</td>
                                                     <td>{item.userAccountData.roleData.value}</td>
