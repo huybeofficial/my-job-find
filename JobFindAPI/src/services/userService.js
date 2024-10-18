@@ -53,7 +53,7 @@ let checkUserPhone = (userPhone) => {
                 })
             } else {
                 let account = await db.Account.findOne({
-                    where: { phonenumber: userPhone }
+                    where: { phoneNumber: userPhone }
                 })
                 if (account) {
                     resolve(true)
@@ -71,13 +71,13 @@ let checkUserPhone = (userPhone) => {
 let handleCreateNewUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.phonenumber || !data.lastName || !data.firstName ) {
+            if (!data.phoneNumber || !data.lastName || !data.firstName ) {
                 resolve({
                     errCode: 2,
                     errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
-                let check = await checkUserPhone(data.phonenumber);
+                let check = await checkUserPhone(data.phoneNumber);
                 if (check) {
                     resolve({
                         errCode: 1,
@@ -118,7 +118,7 @@ let handleCreateNewUser = (data) => {
                     if (user)
                     {
                         await db.Account.create({
-                            phonenumber: data.phonenumber,
+                            phoneNumber: data.phoneNumber,
                             password: hashPassword,
                             roleCode: data.roleCode,
                             statusCode: 'S1',
@@ -127,7 +127,7 @@ let handleCreateNewUser = (data) => {
                     }
                     if (!isHavePass) {
                         let note = `<h3>Tài khoản đã tạo thành công</h3>
-                                    <p>Tài khoản: ${data.phonenumber}</p>
+                                    <p>Tài khoản: ${data.phoneNumber}</p>
                                     <p>Mật khẩu: ${data.password}</p>
                         `
                         sendmail(note,data.email)                        
@@ -309,7 +309,7 @@ let changePaswordByPhone = (data) => {
         try {
 
             let account = await db.Account.findOne({
-                where: { phonenumber: data.phonenumber },
+                where: { phoneNumber: data.phoneNumber },
                 raw: false
             })
             if (account) {
@@ -335,7 +335,7 @@ let handleLogin = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            if (!data.phonenumber || !data.password) {
+            if (!data.phoneNumber || !data.password) {
                 resolve({
                     errCode: 4,
                     errMessage: 'Thiếu tham số bắt buộc!'
@@ -344,11 +344,11 @@ let handleLogin = (data) => {
             else {
                 let userData = {};
 
-                let isExist = await checkUserPhone(data.phonenumber);
+                let isExist = await checkUserPhone(data.phoneNumber);
 
                 if (isExist) {
                     let account = await db.Account.findOne({
-                        where: { phonenumber: data.phonenumber },
+                        where: { phoneNumber: data.phoneNumber },
                         raw: true
                     })
                     if (account) {
@@ -461,7 +461,7 @@ let getAllUser = (data) => {
                     nest: true,
                 }
                 if (data.search) {
-                    objectFilter.where = {phonenumber: {[Op.like]: `%${data.search}%`}}
+                    objectFilter.where = {phoneNumber: {[Op.like]: `%${data.search}%`}}
                 }
                 let res = await db.Account.findAndCountAll(objectFilter)
                 resolve({
