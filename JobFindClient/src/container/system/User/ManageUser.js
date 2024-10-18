@@ -125,7 +125,7 @@ const ManageUser = () => {
                                                 <tr key={index}>
                                                     <td>{index + 1 + numberPage * PAGINATION.pagerow}</td>
                                                     <td>{`${item.userAccountData.firstName} ${item.userAccountData.lastName}`}</td>
-                                                    <td>{item.phonenumber}</td>
+                                                    <td>{item.phoneNumber}</td>
                                                     <td>{item.userAccountData.genderData.value}</td>
                                                     <td>{date}</td>
                                                     <td>{item.roleData.value}</td>

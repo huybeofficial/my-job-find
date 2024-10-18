@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         descriptionMarkdown: DataTypes.TEXT('long'),
         website: DataTypes.STRING,
         address: DataTypes.STRING,
-        phonenumber: DataTypes.STRING,
+        phoneNumber: DataTypes.STRING,
         amountEmployer: DataTypes.INTEGER,
         taxnumber: DataTypes.STRING,
         statusCode: DataTypes.STRING,

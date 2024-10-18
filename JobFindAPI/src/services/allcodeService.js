@@ -1,6 +1,6 @@
 import e from "express";
 import db from "../models/index";
-const cloudinary = require('../utils/cloudinary');
+import { uploadImage } from "../utils/cloudinary";
 const { Op, and } = require("sequelize");
 let handleCreateNewAllCode = (data) => {
     return new Promise(async (resolve, reject) => {
@@ -24,10 +24,11 @@ let handleCreateNewAllCode = (data) => {
                 } else {
                     let imageUrl = ""
                     if (data.image) {
-                        const uploadedResponse = await cloudinary.uploader.upload(data.image, {
-                            upload_preset: 'dev_setups'
-                        })
-                        imageUrl = uploadedResponse.url
+                        try {
+                            imageUrl = await uploadImage(data.image);
+                        } catch (error) {
+                            console.error('Error uploading image:', error);
+                        }
                     }
                     await db.Allcode.create({
                         type: data.type,
@@ -88,11 +89,11 @@ let handleUpdateAllCode = (data) => {
                 if (res) {
                     let imageUrl = ""
                     if (data.image) {
-                        const uploadedResponse = await cloudinary.uploader.upload(data.image, {
-                            upload_preset: 'dev_setups'
-                        })
-                        imageUrl = uploadedResponse.url
-                        res.image = imageUrl
+                        try {
+                            imageUrl = await uploadImage(data.image)
+                        } catch (error) {
+                            console.error('Error uploading image:', error);
+                        }
                     }
                     res.value = data.value
                     res.code = data.code

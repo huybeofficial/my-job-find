@@ -31,7 +31,7 @@ module.exports = {
             address: {
                 type: Sequelize.STRING
             },
-            phonenumber: {
+            phoneNumber: {
                 type: Sequelize.STRING
             },
             amountEmployer: {
