@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom';
 import handleValidate from '../../util/Validation';
 const ForgetPassword = () => {
     const [inputValidates, setValidates] = useState({
-        phonenumber: true, newPassword: true, confirmPassword: true
+        phoneNumber: true, newPassword: true, confirmPassword: true
     })
     const [inputValues, setInputValues] = useState({
-        phonenumber: '', isOpen: false, isSuccess: false, newPassword: '', confirmPassword: '',
+        phoneNumber: '', isOpen: false, isSuccess: false, newPassword: '', confirmPassword: '',
     });
 
     const handleOnChange = event => {
@@ -20,21 +20,21 @@ const ForgetPassword = () => {
     };
 
     let handleOpenVerifyOTP = async () => {
-        let checkPhone = handleValidate(inputValues.phonenumber, "phone")
+        let checkPhone = handleValidate(inputValues.phoneNumber, "phone")
         if (!(checkPhone === true)) {
             setValidates({
                 ...inputValidates,
-                phonenumber: checkPhone
+                phoneNumber: checkPhone
             })
             return
         }
-        let res = await checkUserPhoneService(inputValues.phonenumber)
+        let res = await checkUserPhoneService(inputValues.phoneNumber)
         if (res === true) {
             setInputValues({ ...inputValues, ["isOpen"]: true })
         } else {
             setValidates({
                 ...inputValidates,
-                phonenumber: true
+                phoneNumber: true
             })
             toast.error("Số điện thoại không tồn tại!")
         }
@@ -43,10 +43,10 @@ const ForgetPassword = () => {
     const recieveVerify = (success) => {
         setInputValues({ ...inputValues, ["isOpen"]: false, ["isSuccess"]: true })
     }
-    let handleLogin = async (phonenumber, password) => {
+    let handleLogin = async (phoneNumber, password) => {
 
         let res = await handleLoginService({
-            phonenumber: phonenumber,
+            phoneNumber: phoneNumber,
             password: password
         })
 
@@ -81,12 +81,12 @@ const ForgetPassword = () => {
         }
         let res = await changePasswordByphone({
 
-            phonenumber: inputValues.phonenumber,
+            phoneNumber: inputValues.phoneNumber,
             password: inputValues.newPassword,
         })
         if (res && res.errCode === 0) {
             toast.success("Đổi mật khẩu thành công")
-            handleLogin(inputValues.phonenumber, inputValues.newPassword)
+            handleLogin(inputValues.phoneNumber, inputValues.newPassword)
         } else {
             toast.error(res.errMessage)
         }
@@ -126,8 +126,8 @@ const ForgetPassword = () => {
                                             {inputValues.isSuccess === false &&
                                                 <>
                                                     <div className="form-group">
-                                                        <input type="number" value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Số điện thoại" />
-                                                        {inputValidates.phonenumber && <p style={{ color: 'red' }}>{inputValidates.phonenumber}</p>}
+                                                        <input type="number" value={inputValues.phoneNumber} name="phoneNumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Số điện thoại" />
+                                                        {inputValidates.phoneNumber && <p style={{ color: 'red' }}>{inputValidates.phoneNumber}</p>}
                                                     </div>
                                                     <div className="mt-3">
                                                         <a onClick={() => handleOpenVerifyOTP()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >Xác nhận</a>
@@ -151,7 +151,7 @@ const ForgetPassword = () => {
                 </div>
             }
             {inputValues.isOpen === true &&
-                <OtpForgetPassword dataUser={inputValues.phonenumber} recieveVerify={recieveVerify} />
+                <OtpForgetPassword dataUser={inputValues.phoneNumber} recieveVerify={recieveVerify} />
             }
         </>
     )

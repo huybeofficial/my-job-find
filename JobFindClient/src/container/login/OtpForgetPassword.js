@@ -42,7 +42,7 @@ const OtpForgetPassword = (props) => {
         }
 
 
-        console.log("check phonenumber", phoneNumber)
+        console.log("check phoneNumber", phoneNumber)
         const appVerifier = window.recaptchaVerifier;
 
 
@@ -84,7 +84,7 @@ const OtpForgetPassword = (props) => {
                         <img src="https://raw.githubusercontent.com/Rustcodeweb/OTP-Verification-Card-Design/main/mobile.png" />
                         <h5 style={{ color: '#fff' }} className="mb-2">XÁC THỰC OTP</h5>
                         <div>
-                            <small>mã đã được gửi tới sdt {props.dataUser && props.dataUser.phonenumber}</small>
+                            <small>mã đã được gửi tới sdt {props.dataUser && props.dataUser.phoneNumber}</small>
                         </div>
                     </div>
                     <div className="input-container d-flex flex-row justify-content-center mt-2">

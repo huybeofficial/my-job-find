@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { checkUserPhoneService } from '../../service/userService';
+import { checkUserPhoneService, createNewUser, handleLoginService } from '../../service/userService';
 import { useFetchAllcode } from '../../util/fetch';
 import Otp from './Otp';
 import handleValidate from '../../util/Validation';
@@ -62,7 +62,8 @@ const Register = () => {
         }
     };
 
-    let handleOpenVerifyOTP = async () => {
+    let handleRegister = async () => {
+
         let checkPhonenumber = handleValidate(inputValues.phoneNumber, "phone")
         let checkPassword = handleValidate(inputValues.password, "password")
         let checkFirstName = handleValidate(inputValues.firstName, "isEmpty")
@@ -85,22 +86,56 @@ const Register = () => {
         if (res === true) {
             toast.error("Số điện thoại đã tồn tại !")
         } else {
-            setInputValues({
-                ...inputValues,
-                isOpen: true,
-                dataUser: {
-                    phoneNumber: inputValues.phoneNumber,
+            let createUser = async () => {
+                let res = await createNewUser({
+                    password: inputValues.password,
                     firstName: inputValues.firstName,
                     lastName: inputValues.lastName,
-                    password: inputValues.password,
+                    phoneNumber: inputValues.phoneNumber,
                     roleCode: inputValues.roleCode,
-                    email: inputValues.email
-                },
+                    email: inputValues.email,
+                    image: 'https://res.cloudinary.com/bingo2706/image/upload/v1642521841/dev_setups/l60Hf_blyqhb.png',
+                })
+                if (res && res.errCode === 0) {
+                    toast.success("Tạo tài khoản thành công")
+                    handleLogin(inputValues.phoneNumber, inputValues.password)
 
-            })
+
+                } else {
+                    toast.error(res.errMessage)
+                }
+            }
+            createUser()
         }
 
+        
     }
+
+    let handleLogin = async (phoneNumber, password) => {
+
+        let res = await handleLoginService({
+            phoneNumber: phoneNumber,
+            password: password
+        })
+
+        if (res && res.errCode === 0) {
+
+
+            localStorage.setItem("userData", JSON.stringify(res.user))
+            localStorage.setItem("token_user", res.token)
+            if (res.user.roleCode === "ADMIN" || res.user.roleCode === "EMPLOYER") {
+                window.location.href = "/admin/"
+
+            }
+            else {
+                window.location.href = "/"
+            }
+        }
+        else {
+            toast.error(res.errMessage)
+        }
+    }
+
     return (
         <>
             {inputValues.isOpen === false &&
@@ -152,7 +187,7 @@ const Register = () => {
                                                 {inputValidates.password && <p style={{ color: 'red' }}>{inputValidates.password}</p>}
                                             </div>
                                             <div className="form-group">
-                                                <input type="password" placeholder="Mật khẩu" className="form-control form-control-lg" name="againPass" id="againPass"
+                                                <input type="password" placeholder="Nhập lại mật khẩu" className="form-control form-control-lg" name="againPass" id="againPass"
                                                     value={inputValues.againPass} ref={againPassRefs}
                                                     onChange={(event) => handleOnChange(event)} onKeyUp={(e) => pressEnterEvent(e)}
                                                 />
@@ -184,7 +219,7 @@ const Register = () => {
                                                 </select>
                                             </div>
                                             <div className="mt-3">
-                                                <a onClick={() => handleOpenVerifyOTP()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >Đăng ký</a>
+                                                <a onClick={() => handleRegister()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >Đăng ký</a>
                                             </div>
                                             <div className="text-center mt-4 font-weight-light">
                                                 Bạn đã có tài khoản rồi? <Link to="/login" className="text-primary">Đăng nhập ngay</Link>
@@ -199,11 +234,6 @@ const Register = () => {
                     {/* page-body-wrapper ends */}
                 </div>
             }
-
-            {inputValues.isOpen === true &&
-                <Otp dataUser={inputValues.dataUser} />
-            }
-
 
         </>
     )

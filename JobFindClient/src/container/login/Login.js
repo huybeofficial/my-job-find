@@ -5,9 +5,13 @@ import { Link } from 'react-router-dom'
 import { handleLoginService } from '../../service/userService';
 import { toast } from 'react-toastify';
 const Login = () => {
+
+    const phoneNumberRefs = React.createRef()
+    const passwordRefs = React.createRef()
+
     let history = useHistory()
     const [inputValues, setInputValues] = useState({
-        password: '', phonenumber: ''
+        password: '', phoneNumber: ''
     });
     const handleOnChange = event => {
         const { name, value } = event.target;
@@ -17,7 +21,7 @@ const Login = () => {
     let handleLogin = async () => {
 
         let res = await handleLoginService({
-            phonenumber: inputValues.phonenumber,
+            phoneNumber: inputValues.phoneNumber,
             password: inputValues.password
         })
 
@@ -44,6 +48,23 @@ const Login = () => {
             toast.error(res.errMessage)
         }
     }
+
+    const pressEnterEvent = (event) => {
+        if (event.keyCode === 13) {
+            switch (event.target.id) {
+                case "phoneNumber":
+                    phoneNumberRefs && passwordRefs.current.focus();
+                    break;
+                case "password":
+                    handleLogin()
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+
     return (
         <>
 
@@ -60,10 +81,10 @@ const Login = () => {
                                     <h6 className="font-weight-light">Đăng nhập để tiếp tục.</h6>
                                     <form className="pt-3">
                                         <div className="form-group">
-                                            <input type="number" value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Số điện thoại" />
+                                            <input type="number" value={inputValues.phoneNumber} name="phoneNumber" onKeyUp={(e) => pressEnterEvent(e)} onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" ref={phoneNumberRefs} id="phoneNumber" placeholder="Số điện thoại" />
                                         </div>
                                         <div className="form-group">
-                                            <input type="password" value={inputValues.password} name="password" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Mật khẩu" />
+                                            <input type="password" value={inputValues.password} name="password" onKeyUp={(e) => pressEnterEvent(e)} onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" ref={passwordRefs} id="password" placeholder="Mật khẩu" />
                                         </div>
                                         <div className="mt-3">
                                             <a onClick={() => handleLogin()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >Đăng nhập</a>
