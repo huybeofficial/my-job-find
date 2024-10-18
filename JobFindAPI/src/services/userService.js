@@ -2,7 +2,7 @@ import db from "../models/index";
 import bcrypt from "bcryptjs";
 const { Op } = require("sequelize");
 import CommonUtils from '../utils/CommonUtils';
-const cloudinary = require('../utils/cloudinary');
+const { uploadImage } = require('../utils/cloudinary');
 const salt = bcrypt.genSaltSync(10);
 require('dotenv').config();
 let nodemailer = require('nodemailer');
@@ -92,10 +92,11 @@ let handleCreateNewUser = (data) => {
                     }
                     let hashPassword = await hashUserPasswordFromBcrypt(data.password);
                     if (data.image) {
-                        const uploadedResponse = await cloudinary.uploader.upload(data.image, {
-                            upload_preset: 'dev_setups'
-                        })
-                        imageUrl = uploadedResponse.url
+                        try {
+                            imageUrl = await uploadImage(data.image);
+                        } catch (error) {
+                            console.error('Error uploading image:', error);
+                        }
                     }
                     if (!data.email) {
                         data.email = 'huybefake@gmail.com'
@@ -262,12 +263,11 @@ let updateUserData = (data) => {
                     user.dob = data.dob
                     user.email = data.email
                     if (data.image) {
-                        let imageUrl = ""
-                        const uploadedResponse = await cloudinary.uploader.upload(data.image, {
-                            upload_preset: 'dev_setups'
-                        })
-                        imageUrl = uploadedResponse.url
-                        user.image = imageUrl
+                        try {
+                            user.image = await uploadImage(data.image)
+                        } catch (error) {
+                            console.error('Error uploading image:', error);
+                        }
                     }
                     await user.save();
                     if (data.roleCode)

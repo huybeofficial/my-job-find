@@ -99,7 +99,7 @@ let getDetailUserById = async (req, res) => {
 }
 let checkUserPhone = async (req, res) => {
     try {
-        let data = await userService.checkUserPhone(req.query.phonenumber);
+        let data = await userService.checkUserPhone(req.query.phoneNumber);
         return res.status(200).json(data);
     } catch (error) {
         console.log(error)

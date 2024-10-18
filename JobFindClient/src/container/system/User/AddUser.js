@@ -18,7 +18,7 @@ const AddUser = () => {
     const [isLoading, setIsLoading] = useState(false)
     const { id } = useParams();
     const [inputValues, setInputValues] = useState({
-        email: '', firstName: '', lastName: '', address: '', phonenumber: '', genderCode: '', roleCode: '', id: '', dob: '', image: ''
+        email: '', firstName: '', lastName: '', address: '', phoneNumber: '', genderCode: '', roleCode: '', id: '', dob: '', image: ''
     });
     let setStateUser = (data) => {
         setInputValues({
@@ -26,7 +26,7 @@ const AddUser = () => {
             ["firstName"]: data.userAccountData.firstName,
             ["lastName"]: data.userAccountData.lastName,
             ["address"]: data.userAccountData.address,
-            ["phonenumber"]: data.phonenumber,
+            ["phoneNumber"]: data.phoneNumber,
             ["genderCode"]: data.userAccountData.genderCode,
             ["roleCode"]: data.roleData.code,
             ["id"]: data.userAccountData.id,
@@ -86,7 +86,7 @@ const AddUser = () => {
                 address: inputValues.address,
                 roleCode: inputValues.roleCode,
                 genderCode: inputValues.genderCode,
-                phonenumber: inputValues.phonenumber,
+                phoneNumber: inputValues.phoneNumber,
                 password: inputValues.password,
                 image: 'https://res.cloudinary.com/bingo2706/image/upload/v1642521841/dev_setups/l60Hf_blyqhb.png',
                 dob: new Date(birthday).getTime(),
@@ -106,7 +106,7 @@ const AddUser = () => {
                         ["email"]: '',
                         ["lastName"]: '',
                         ["address"]: '',
-                        ["phonenumber"]: '',
+                        ["phoneNumber"]: '',
                         ["genderCode"]: '',
                         ["roleCode"]: '',
                         ["image"]: '',
@@ -184,7 +184,7 @@ const AddUser = () => {
                                     <div className="form-group row">
                                         <label className="col-sm-3 col-form-label">Số điện thoại</label>
                                         <div className="col-sm-9">
-                                            <input type="number" value={inputValues.phonenumber} disabled={isActionADD === true ? false : true} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control" />
+                                            <input type="number" value={inputValues.phoneNumber} disabled={isActionADD === true ? false : true} name="phoneNumber" onChange={(event) => handleOnChange(event)} className="form-control" />
                                         </div>
                                     </div>
                                 </div>

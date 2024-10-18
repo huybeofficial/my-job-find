@@ -31,8 +31,8 @@ const UnbanUserService = (userId) => {
     })
 
 }
-const checkUserPhoneService = (phonenumber) => {
-    return axios.get(`/api/check-phonenumber-user?phonenumber=${phonenumber}`)
+const checkUserPhoneService = (phoneNumber) => {
+    return axios.get(`/api/check-phoneNumber-user?phoneNumber=${phoneNumber}`)
 }
 const changePasswordByphone = (data) => {
     return axios.post(`/api/changepasswordbyPhone`,data)

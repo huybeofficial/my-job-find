@@ -19,7 +19,7 @@ const UserInfo = () => {
     const [isActionADD, setisActionADD] = useState(true)
     const { id } = useParams();
     const [inputValues, setInputValues] = useState({
-        password: '', firstName: '', lastName: '', address: '', phonenumber: '', genderCode: '', roleCode: '', id: '', dob: '', image: '', imageReview: '', isOpen: false, email: ''
+        password: '', firstName: '', lastName: '', address: '', phoneNumber: '', genderCode: '', roleCode: '', id: '', dob: '', image: '', imageReview: '', isOpen: false, email: ''
     });
 
     let setStateUser = (data) => {
@@ -28,7 +28,7 @@ const UserInfo = () => {
             ["firstName"]: data.userAccountData.firstName,
             ["lastName"]: data.userAccountData.lastName,
             ["address"]: data.userAccountData.address,
-            ["phonenumber"]: data.phonenumber,
+            ["phoneNumber"]: data.phoneNumber,
             ["genderCode"]: data.userAccountData.genderCode,
             ["roleCode"]: data.userAccountData.roleCode,
             ["id"]: data.userAccountData.id,
@@ -155,7 +155,7 @@ const UserInfo = () => {
                                     <div className="form-group row">
                                         <label className="col-sm-3 col-form-label">Số điện thoại</label>
                                         <div className="col-sm-9">
-                                            <input type="number" value={inputValues.phonenumber} disabled={isActionADD === true ? false : true} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control" />
+                                            <input type="number" value={inputValues.phoneNumber} disabled={isActionADD === true ? false : true} name="phoneNumber" onChange={(event) => handleOnChange(event)} className="form-control" />
                                         </div>
                                     </div>
                                 </div>

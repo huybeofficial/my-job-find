@@ -5,7 +5,7 @@ const pdfExtract = new PDFExtract();
 const keywordExtractor = require("keyword-extractor");
 let encodeToken = (userId) =>{
     return JWT.sign({
-        iss: 'Tai Nguyen',
+        iss: 'Huy Tran',
         sub: userId,
         iat: new Date().getTime(),
         exp: new Date().setDate(new Date().getDate() +3)
@@ -14,7 +14,7 @@ let encodeToken = (userId) =>{
 }
 
 let pdfToString = async(file) => {
-    file = file = new Buffer.from(file, 'base64').toString('binary');
+    file = new Buffer.from(file, 'base64').toString('binary');
     let buffer = new Buffer.from(file.split(",")[1], 'base64');
     const options = {}
     let pdfData = null
