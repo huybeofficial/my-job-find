@@ -21,8 +21,7 @@ let sendmail = (note, userMail, link = null) => {
         subject: 'Thông báo từ trang Vào Việc',
         html: note
     };
-    if (link)
-    {
+    if (link) {
         mailOptions.html = note + ` xem thông tin <a href='${process.env.URL_REACT}/${link}'>Tại đây</a> `
     }
 
@@ -53,8 +52,10 @@ let checkUserPhone = (userPhone) => {
                 })
             } else {
                 let account = await db.Account.findOne({
-                    where: { phoneNumber: userPhone }
+                    where: { phonenumber: userPhone }
                 })
+
+                console.log("accountaccount",account);
                 if (account) {
                     resolve(true)
                 } else {
@@ -71,13 +72,13 @@ let checkUserPhone = (userPhone) => {
 let handleCreateNewUser = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.phoneNumber || !data.lastName || !data.firstName ) {
+            if (!data.phonenumber || !data.lastName || !data.firstName || !data.email) {
                 resolve({
                     errCode: 2,
                     errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
-                let check = await checkUserPhone(data.phoneNumber);
+                let check = await checkUserPhone(data.phonenumber);
                 if (check) {
                     resolve({
                         errCode: 1,
@@ -111,15 +112,15 @@ let handleCreateNewUser = (data) => {
                         companyId: data.companyId,
                         email: data.email
                     }
-                    if (data.companyId){
+                    if (data.companyId) {
                         params.companyId = data.companyId
                     }
                     let user = await db.User.create(params)
-                    if (user)
-                    {
+                    if (user) {
                         await db.Account.create({
-                            phoneNumber: data.phoneNumber,
+                            phonenumber: data.phonenumber,
                             password: hashPassword,
+                            email: data.email,
                             roleCode: data.roleCode,
                             statusCode: 'S1',
                             userId: user.id
@@ -127,10 +128,10 @@ let handleCreateNewUser = (data) => {
                     }
                     if (!isHavePass) {
                         let note = `<h3>Tài khoản đã tạo thành công</h3>
-                                    <p>Tài khoản: ${data.phoneNumber}</p>
+                                    <p>Tài khoản: ${data.phonenumber}</p>
                                     <p>Mật khẩu: ${data.password}</p>
                         `
-                        sendmail(note,data.email)                        
+                        sendmail(note, data.email)
                     }
                     resolve({
                         errCode: 0,
@@ -168,13 +169,12 @@ let banUser = (userId) => {
                         errMessage: `Người dùng không tồn tại`
                     })
                 }
-                else{
+                else {
                     let account = await db.Account.findOne({
-                        where: {userId: userId},
+                        where: { userId: userId },
                         raw: false
                     })
-                    if (account)
-                    {
+                    if (account) {
                         account.statusCode = 'S2'
                         await account.save()
                         resolve({
@@ -213,13 +213,12 @@ let unbanUser = (userId) => {
                         errMessage: `Người dùng không tồn tại`
                     })
                 }
-                else{
+                else {
                     let account = await db.Account.findOne({
-                        where: {userId: userId},
+                        where: { userId: userId },
                         raw: false
                     })
-                    if (account)
-                    {
+                    if (account) {
                         account.statusCode = 'S1'
                         await account.save()
                         resolve({
@@ -252,8 +251,8 @@ let updateUserData = (data) => {
                     }
                 })
                 let account = await db.Account.findOne({
-                    where: {userId: data.id},
-                    raw:false
+                    where: { userId: data.id },
+                    raw: false
                 })
                 if (user && account) {
                     user.firstName = data.firstName
@@ -271,7 +270,7 @@ let updateUserData = (data) => {
                     }
                     await user.save();
                     if (data.roleCode)
-                    account.roleCode = data.roleCode
+                        account.roleCode = data.roleCode
                     await account.save();
                     let temp = {
                         address: user.address,
@@ -309,7 +308,7 @@ let changePaswordByPhone = (data) => {
         try {
 
             let account = await db.Account.findOne({
-                where: { phoneNumber: data.phoneNumber },
+                where: { phonenumber: data.phonenumber },
                 raw: false
             })
             if (account) {
@@ -322,7 +321,7 @@ let changePaswordByPhone = (data) => {
             }
             else {
                 resolve({
-                    errCode:1,
+                    errCode: 1,
                     errMessage: 'SĐT không tồn tại'
                 })
             }
@@ -335,7 +334,7 @@ let handleLogin = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
 
-            if (!data.phoneNumber || !data.password) {
+            if (!data.phonenumber || !data.password) {
                 resolve({
                     errCode: 4,
                     errMessage: 'Thiếu tham số bắt buộc!'
@@ -344,29 +343,28 @@ let handleLogin = (data) => {
             else {
                 let userData = {};
 
-                let isExist = await checkUserPhone(data.phoneNumber);
+                let isExist = await checkUserPhone(data.phonenumber);
 
                 if (isExist) {
                     let account = await db.Account.findOne({
-                        where: { phoneNumber: data.phoneNumber },
+                        where: { phonenumber: data.phonenumber },
                         raw: true
                     })
                     if (account) {
                         let check = await bcrypt.compareSync(data.password, account.password);
                         if (check) {
-                            if (account.statusCode == 'S1')
-                            {
+                            if (account.statusCode == 'S1') {
                                 let user = await db.User.findOne({
                                     attributes: {
-                                        exclude: ['userId','file']
+                                        exclude: ['userId', 'file']
                                     },
-                                    where: {id: account.userId  },
+                                    where: { id: account.userId },
                                     raw: true
                                 })
                                 user.roleCode = account.roleCode
                                 userData.errMessage = 'Ok';
                                 userData.errCode = 0;
-                                userData.user= user;
+                                userData.user = user;
                                 userData.token = CommonUtils.encodeToken(user.id)
                             }
                             else {
@@ -395,13 +393,60 @@ let handleLogin = (data) => {
         }
     })
 }
+
+let forgotPassword = async (data) => {
+    try {
+        let account = await db.Account.findOne({
+            where: { phonenumber: data.phonenumber },
+            raw: false
+        });
+
+        if (account) {
+            let userId = account.userId; // Lấy userId từ account
+            let user = await db.User.findOne({
+                where: { id: userId },
+                raw: false
+            });
+
+            if (user) {
+                let newPassword = `${new Date().getTime().toString()}`;
+                let hashPassword = await hashUserPasswordFromBcrypt(newPassword);
+                account.password = hashPassword;
+                await account.save();
+                console.log("ACCOUNT:", account);
+                let note = `<h3>Mật khẩu mới của bạn là: ${newPassword}</h3>`;
+                sendmail(note, user.email, 'login'); // Gửi email đến user.email
+                return {
+                    errCode: 0,
+                    errMessage: 'Mật khẩu mới đã được gửi vào email của bạn'
+                };
+            } else {
+                return {
+                    errCode: -1,
+                    errMessage: 'Người dùng không tồn tại'
+                };
+            }
+        } else {
+            return {
+                errCode: -1,
+                errMessage: 'Số điện thoại không tồn tại'
+            };
+        }
+    } catch (error) {
+        console.error('Error in forgotPassword:', error);
+        return {
+            errCode: -1,
+            errMessage: 'Error from server'
+        };
+    }
+};
 let handleChangePassword = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.id || !data.password || !data.oldpassword) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameter!'
+                    errMessage: 'Thiếu tham số bắt buộc!'
                 })
             } else {
                 let account = await db.Account.findOne({
@@ -437,7 +482,7 @@ let getAllUser = (data) => {
             if (!data.limit || !data.offset) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameter !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let objectFilter = {
@@ -447,11 +492,12 @@ let getAllUser = (data) => {
                         exclude: ['password']
                     },
                     include: [
-                        { model: db.Allcode, as: 'roleData' ,attributes: ['code','value'] }, 
-                        { model: db.Allcode, as: 'statusAccountData',attributes: ['code','value']},
-                        { model: db.User, as: 'userAccountData', attributes: {
-                            exclude: ['userId']
-                        },
+                        { model: db.Allcode, as: 'roleData', attributes: ['code', 'value'] },
+                        { model: db.Allcode, as: 'statusAccountData', attributes: ['code', 'value'] },
+                        {
+                            model: db.User, as: 'userAccountData', attributes: {
+                                exclude: ['userId']
+                            },
                             include: [
                                 { model: db.Allcode, as: 'genderData', attributes: ['value', 'code'] },
                             ]
@@ -461,7 +507,7 @@ let getAllUser = (data) => {
                     nest: true,
                 }
                 if (data.search) {
-                    objectFilter.where = {phoneNumber: {[Op.like]: `%${data.search}%`}}
+                    objectFilter.where = { phonenumber: { [Op.like]: `%${data.search}%` } }
                 }
                 let res = await db.Account.findAndCountAll(objectFilter)
                 resolve({
@@ -492,12 +538,13 @@ let getDetailUserById = (userid) => {
                     },
                     include: [
                         { model: db.Allcode, as: 'roleData', attributes: ['value', 'code'] },
-                        { model: db.User, as: 'userAccountData', attributes: {
-                            exclude: ['userId'],
-                        },
+                        {
+                            model: db.User, as: 'userAccountData', attributes: {
+                                exclude: ['userId'],
+                            },
                             include: [
                                 { model: db.Allcode, as: 'genderData', attributes: ['value', 'code'] },
-                                { model: db.UserSetting, as: 'userSettingData'},
+                                { model: db.UserSetting, as: 'userSettingData' },
                             ]
                         },
                     ],
@@ -508,12 +555,12 @@ let getDetailUserById = (userid) => {
                     res.userAccountData.userSettingData.file = new Buffer.from(res.userAccountData.userSettingData.file, 'base64').toString('binary');
                 }
                 let listSkills = await db.UserSkill.findAll({
-                    where: {userId: res.userAccountData.id},
+                    where: { userId: res.userAccountData.id },
                     include: db.Skill,
                     raw: true,
                     nest: true
                 })
-                res.listSkills= listSkills
+                res.listSkills = listSkills
                 resolve({
                     errCode: 0,
                     data: res,
@@ -535,14 +582,14 @@ let setDataUserSetting = (data) => {
                 })
             } else {
                 let user = await db.User.findOne({
-                    where: {id: data.id},
+                    where: { id: data.id },
                     attributes: {
                         exclude: ['userId']
                     },
                 })
                 if (user) {
                     let userSetting = await db.UserSetting.findOne({
-                        where: {userId: user.id},
+                        where: { userId: user.id },
                         raw: false,
                     })
                     if (userSetting) {
@@ -551,17 +598,17 @@ let setDataUserSetting = (data) => {
                         userSetting.addressCode = data.data.addressCode
                         userSetting.experienceJobCode = data.data.experienceJobCode
                         userSetting.isTakeMail = data.data.isTakeMail
-                        userSetting.isFindJob = data.data.isFindJob 
+                        userSetting.isFindJob = data.data.isFindJob
                         userSetting.file = data.data.file
                         await userSetting.save()
                     }
                     else {
                         let params = {
                             salaryJobCode: data.data.salaryJobCode,
-                            categoryJobCode : data.data.categoryJobCode,
-                            addressCode : data.data.addressCode,
-                            experienceJobCode : data.data.experienceJobCode,
-                            file : data.data.file,
+                            categoryJobCode: data.data.categoryJobCode,
+                            addressCode: data.data.addressCode,
+                            experienceJobCode: data.data.experienceJobCode,
+                            file: data.data.file,
                             userId: user.id
                         }
                         if (data.data.isTakeMail) params.isTakeMail = data.data.isTakeMail
@@ -570,9 +617,9 @@ let setDataUserSetting = (data) => {
                     }
                     if (data.data.listSkills && Array.isArray(data.data.listSkills)) {
                         await db.UserSkill.destroy({
-                            where: {userId: user.id}
+                            where: { userId: user.id }
                         })
-                        let objUserSkill = data.data.listSkills.map(item=>{
+                        let objUserSkill = data.data.listSkills.map(item => {
                             return {
                                 UserId: user.id,
                                 SkillId: item
@@ -606,6 +653,7 @@ module.exports = {
     updateUserData: updateUserData,
     handleLogin: handleLogin,
     handleChangePassword: handleChangePassword,
+    forgotPassword: forgotPassword,
     getAllUser: getAllUser,
     getDetailUserById: getDetailUserById,
     checkUserPhone: checkUserPhone, changePaswordByPhone,

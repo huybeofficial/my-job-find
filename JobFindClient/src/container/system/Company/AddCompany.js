@@ -17,7 +17,7 @@ const AddCompany = () => {
     const [user, setUser] = useState({})
     const [isLoading, setIsLoading] = useState(false)
     const [inputValues, setInputValues] = useState({
-        image: '', coverImage: '', imageReview: '', coverImageReview: '', isOpen: false, name: '', phoneNumber: '', address: '', website: '',
+        image: '', coverImage: '', imageReview: '', coverImageReview: '', isOpen: false, name: '', phonenumber: '', address: '', website: '',
         amountEmployer: '', taxnumber: '', descriptionHTML: '', descriptionMarkdown: '', isActionADD: true, id: '', file: '', imageClick: '',
         isFileChange: false
     });
@@ -38,7 +38,7 @@ const AddCompany = () => {
             setInputValues({
                 ...inputValues,
                 ["name"]: res.data.name,
-                ["phoneNumber"]: res.data.phoneNumber,
+                ["phonenumber"]: res.data.phonenumber,
                 ["address"]: res.data.address,
                 ["image"]: res.data.thumbnail,
                 ["coverImage"]: res.data.coverimage,
@@ -96,7 +96,7 @@ const AddCompany = () => {
         if (inputValues.isActionADD === true) {
             let params = {
                 name: inputValues.name,
-                phoneNumber: inputValues.phoneNumber,
+                phonenumber: inputValues.phonenumber,
                 address: inputValues.address,
                 thumbnail: inputValues.image,
                 coverimage: inputValues.coverImage,
@@ -129,7 +129,7 @@ const AddCompany = () => {
         } else {
             let params = {
                 name: inputValues.name,
-                phoneNumber: inputValues.phoneNumber,
+                phonenumber: inputValues.phonenumber,
                 address: inputValues.address,
                 thumbnail: inputValues.image,
                 coverimage: inputValues.coverImage,
@@ -185,7 +185,7 @@ const AddCompany = () => {
                                         <div className="form-group row">
                                             <label className="col-sm-3 col-form-label">Số điện thoại</label>
                                             <div className="col-sm-9">
-                                                <input disabled={user?.roleCode === "ADMIN" ? true : false} value={inputValues.phoneNumber} name="phoneNumber" onChange={(event) => handleOnChange(event)} type="number" className="form-control" />
+                                                <input disabled={user?.roleCode === "ADMIN" ? true : false} value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} type="number" className="form-control" />
                                             </div>
                                         </div>
                                     </div>

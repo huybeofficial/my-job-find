@@ -21,9 +21,10 @@ let initWebRoutes = (app) => {
     router.post('/api/changepassword', middlewareControllers.verifyTokenUser,userController.handleChangePassword)
     router.get('/api/get-all-user', middlewareControllers.verifyTokenUser,userController.getAllUser)
     router.get('/api/get-detail-user-by-id', middlewareControllers.verifyTokenUser,userController.getDetailUserById)
-    router.get('/api/check-phoneNumber-user', userController.checkUserPhone)
+    router.get('/api/check-phonenumber-user', userController.checkUserPhone)
     router.post('/api/changepasswordbyPhone', userController.changePaswordByPhone)
     router.put('/api/setDataUserSetting', userController.setDataUserSetting)
+    router.post('/api/forgot-password', userController.forgotPassword)
 
     //===================API ALLCODE========================//
     router.post('/api/create-new-all-code',middlewareControllers.verifyTokenAdmin ,allcodeController.handleCreateNewAllCode)

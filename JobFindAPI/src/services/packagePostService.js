@@ -164,7 +164,7 @@ let paymentOrderSuccess = (data) => {
             if (!data.PayerID || !data.paymentId || !data.token) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameter !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
                 let infoItem = await db.PackagePost.findOne({

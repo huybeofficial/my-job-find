@@ -11,7 +11,7 @@ const Login = () => {
 
     let history = useHistory()
     const [inputValues, setInputValues] = useState({
-        password: '', phoneNumber: ''
+        password: '', phonenumber: ''
     });
     const handleOnChange = event => {
         const { name, value } = event.target;
@@ -21,7 +21,7 @@ const Login = () => {
     let handleLogin = async () => {
 
         let res = await handleLoginService({
-            phoneNumber: inputValues.phoneNumber,
+            phonenumber: inputValues.phonenumber,
             password: inputValues.password
         })
 
@@ -52,7 +52,7 @@ const Login = () => {
     const pressEnterEvent = (event) => {
         if (event.keyCode === 13) {
             switch (event.target.id) {
-                case "phoneNumber":
+                case "phonenumber":
                     phoneNumberRefs && passwordRefs.current.focus();
                     break;
                 case "password":
@@ -81,7 +81,7 @@ const Login = () => {
                                     <h6 className="font-weight-light">Đăng nhập để tiếp tục.</h6>
                                     <form className="pt-3">
                                         <div className="form-group">
-                                            <input type="number" value={inputValues.phoneNumber} name="phoneNumber" onKeyUp={(e) => pressEnterEvent(e)} onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" ref={phoneNumberRefs} id="phoneNumber" placeholder="Số điện thoại" />
+                                            <input type="number" value={inputValues.phonenumber} name="phonenumber" onKeyUp={(e) => pressEnterEvent(e)} onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" ref={phoneNumberRefs} id="phonenumber" placeholder="Số điện thoại" />
                                         </div>
                                         <div className="form-group">
                                             <input type="password" value={inputValues.password} name="password" onKeyUp={(e) => pressEnterEvent(e)} onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" ref={passwordRefs} id="password" placeholder="Mật khẩu" />

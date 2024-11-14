@@ -73,7 +73,7 @@ let checkUserPhone = (userPhone) => {
                 })
             } else {
                 let account = await db.Account.findOne({
-                    where: { phoneNumber: userPhone }
+                    where: { phonenumber: userPhone }
                 })
                 if (account) {
                     resolve(true)
@@ -92,7 +92,7 @@ let checkUserPhone = (userPhone) => {
 let handleCreateNewCompany = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.name || !data.phoneNumber || !data.address
+            if (!data.name || !data.phonenumber || !data.address
                 || !data.descriptionHTML || !data.descriptionMarkdown
                 || !data.amountEmployer || !data.userId) {
                 resolve({
@@ -125,7 +125,7 @@ let handleCreateNewCompany = (data) => {
                         descriptionMarkdown: data.descriptionMarkdown,
                         website: data.website,
                         address: data.address,
-                        phoneNumber: data.phoneNumber,
+                        phonenumber: data.phonenumber,
                         amountEmployer: data.amountEmployer,
                         taxnumber: data.taxnumber,
                         statusCode: 'S1',
@@ -173,7 +173,7 @@ let handleCreateNewCompany = (data) => {
 let handleUpdateCompany = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.id || !data.name || !data.phoneNumber || !data.address || !data.descriptionHTML || !data.descriptionMarkdown || !data.amountEmployer) {
+            if (!data.id || !data.name || !data.phonenumber || !data.address || !data.descriptionHTML || !data.descriptionMarkdown || !data.amountEmployer) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Thiếu tham số bắt buộc !'
@@ -216,7 +216,7 @@ let handleUpdateCompany = (data) => {
                             res.address = data.address
                             res.amountEmployer = data.amountEmployer
                             res.taxnumber = data.taxnumber
-                            res.phoneNumber = data.phoneNumber
+                            res.phonenumber = data.phonenumber
                             if (data.file) {
                                 res.file = data.file
                                 res.censorCode = 'CS3'
@@ -378,7 +378,7 @@ let handleAccecptCompany = (data) => {
 let handleAddUserCompany = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!data.phoneNumber || !data.companyId) {
+            if (!data.phonenumber || !data.companyId) {
                 resolve({
                     errCode: 1,
                     errMessage: 'Thiếu tham số bắt buộc !'
@@ -386,11 +386,11 @@ let handleAddUserCompany = (data) => {
             } else {
                 let company = await db.Company.findOne({ where: { id: data.companyId } })
                 if (company) {
-                    let isExist = await checkUserPhone(data.phoneNumber);
+                    let isExist = await checkUserPhone(data.phonenumber);
                     if (isExist) {
                         let account = await db.Account.findOne({
                             where: {
-                                phoneNumber: data.phoneNumber
+                                phonenumber: data.phonenumber
                             },
                             raw: false
                         })
@@ -603,7 +603,7 @@ let getAllUserByCompanyId = (data) => {
             if (!data.limit || !data.offset || !data.companyId) {
                 resolve({
                     errCode: 1,
-                    errMessage: 'Missing required parameter !'
+                    errMessage: 'Thiếu tham số bắt buộc !'
                 })
             } else {
 

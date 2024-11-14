@@ -31,8 +31,11 @@ const UnbanUserService = (userId) => {
     })
 
 }
-const checkUserPhoneService = (phoneNumber) => {
-    return axios.get(`/api/check-phoneNumber-user?phoneNumber=${phoneNumber}`)
+const checkUserPhoneService = (phonenumber) => {
+    return axios.get(`/api/check-phonenumber-user?phonenumber=${phonenumber}`)
+}
+const forgotPassword = (data) => {
+    return axios.post(`/api/forgot-password`, data)
 }
 const changePasswordByphone = (data) => {
     return axios.post(`/api/changepasswordbyPhone`,data)
@@ -331,5 +334,5 @@ export {
     getListSkill, getAllSkillByJobCode, createSkilleService, UpdateSkillService, DeleteSkillService, getDetailSkillById,
     UpdateUserSettingService,
     getPackageByIdCv, getAllPackageCv, getPaymentLinkCv, paymentOrderSuccessServiceCv, setActiveTypePackageCv, createPackageCv, updatePackageCv,getStatisticalPackageCv, getAllToSelect,
-    getHistoryTradeCv, getHistoryTradePost, getSumByYearCv, getSumByYearPost
+    getHistoryTradeCv, getHistoryTradePost, getSumByYearCv, getSumByYearPost, forgotPassword
 }

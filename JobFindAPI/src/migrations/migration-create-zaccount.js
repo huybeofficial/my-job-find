@@ -9,7 +9,7 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            phoneNumber:{
+            phonenumber:{
                 type: Sequelize.STRING,
                 unique: true
             },

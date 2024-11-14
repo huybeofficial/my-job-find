@@ -29,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
     Account.init({
-        phoneNumber: DataTypes.STRING,
+        phonenumber: DataTypes.STRING,
+        email: DataTypes.STRING,
         password: DataTypes.STRING,
         roleCode: DataTypes.STRING,
         statusCode: DataTypes.STRING,

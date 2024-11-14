@@ -68,7 +68,7 @@ const Header = () => {
                                                 <ul className="navbar-nav navbar-nav-right">
                                                     <li className="nav-item nav-profile dropdown">
                                                         <a className="nav-link dropdown-toggle box-header-profile" href="#" data-toggle="dropdown" id="profileDropdown">
-                                                            <img style={{ objectFit: 'cover', width: '30px', height: '30px', borderRadius: '50%', marginLeft: '15px' }} src={user.image} alt="profile" />
+                                                            <img style={{ objectFit: 'cover', width: '30px', height: '30px', borderRadius: '50%', marginLeft: '15px' }} src={user.image || "/assets/img/banner/dog.png"} alt="profile" />
                                                             <span className='header-name-user'>{user.firstName + " " + user.lastName}</span>
                                                         </a>
                                                         <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">

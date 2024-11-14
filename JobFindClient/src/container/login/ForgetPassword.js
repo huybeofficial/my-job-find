@@ -1,16 +1,16 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { checkUserPhoneService, changePasswordByphone, handleLoginService } from '../../service/userService';
+import { changePasswordByphone, forgotPassword, handleLoginService } from '../../service/userService';
 import OtpForgetPassword from './OtpForgetPassword';
 import { Link } from 'react-router-dom';
 import handleValidate from '../../util/Validation';
 const ForgetPassword = () => {
     const [inputValidates, setValidates] = useState({
-        phoneNumber: true, newPassword: true, confirmPassword: true
+        phonenumber: true, newPassword: true, confirmPassword: true
     })
     const [inputValues, setInputValues] = useState({
-        phoneNumber: '', isOpen: false, isSuccess: false, newPassword: '', confirmPassword: '',
+        phonenumber: '', isOpen: false, isSuccess: false, newPassword: '', confirmPassword: '',
     });
 
     const handleOnChange = event => {
@@ -20,21 +20,23 @@ const ForgetPassword = () => {
     };
 
     let handleOpenVerifyOTP = async () => {
-        let checkPhone = handleValidate(inputValues.phoneNumber, "phone")
+        let checkPhone = handleValidate(inputValues.phonenumber, "phone")
         if (!(checkPhone === true)) {
             setValidates({
                 ...inputValidates,
-                phoneNumber: checkPhone
+                phonenumber: checkPhone
             })
             return
         }
-        let res = await checkUserPhoneService(inputValues.phoneNumber)
+        let res = await forgotPassword({
+            phonenumber: inputValues.phonenumber,
+        })
         if (res === true) {
-            setInputValues({ ...inputValues, ["isOpen"]: true })
+            setInputValues({ ...inputValues, ["isSuccess"]: true })
         } else {
             setValidates({
                 ...inputValidates,
-                phoneNumber: true
+                phonenumber: true
             })
             toast.error("Số điện thoại không tồn tại!")
         }
@@ -43,10 +45,10 @@ const ForgetPassword = () => {
     const recieveVerify = (success) => {
         setInputValues({ ...inputValues, ["isOpen"]: false, ["isSuccess"]: true })
     }
-    let handleLogin = async (phoneNumber, password) => {
+    let handleLogin = async (phonenumber, password) => {
 
         let res = await handleLoginService({
-            phoneNumber: phoneNumber,
+            phonenumber: phonenumber,
             password: password
         })
 
@@ -81,12 +83,12 @@ const ForgetPassword = () => {
         }
         let res = await changePasswordByphone({
 
-            phoneNumber: inputValues.phoneNumber,
+            phonenumber: inputValues.phonenumber,
             password: inputValues.newPassword,
         })
         if (res && res.errCode === 0) {
             toast.success("Đổi mật khẩu thành công")
-            handleLogin(inputValues.phoneNumber, inputValues.newPassword)
+            handleLogin(inputValues.phonenumber, inputValues.newPassword)
         } else {
             toast.error(res.errMessage)
         }
@@ -126,8 +128,8 @@ const ForgetPassword = () => {
                                             {inputValues.isSuccess === false &&
                                                 <>
                                                     <div className="form-group">
-                                                        <input type="number" value={inputValues.phoneNumber} name="phoneNumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Số điện thoại" />
-                                                        {inputValidates.phoneNumber && <p style={{ color: 'red' }}>{inputValidates.phoneNumber}</p>}
+                                                        <input type="number" value={inputValues.phonenumber} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputEmail1" placeholder="Số điện thoại" />
+                                                        {inputValidates.phonenumber && <p style={{ color: 'red' }}>{inputValidates.phonenumber}</p>}
                                                     </div>
                                                     <div className="mt-3">
                                                         <a onClick={() => handleOpenVerifyOTP()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >Xác nhận</a>
@@ -149,9 +151,6 @@ const ForgetPassword = () => {
                     </div>
                     {/* page-body-wrapper ends */}
                 </div>
-            }
-            {inputValues.isOpen === true &&
-                <OtpForgetPassword dataUser={inputValues.phoneNumber} recieveVerify={recieveVerify} />
             }
         </>
     )

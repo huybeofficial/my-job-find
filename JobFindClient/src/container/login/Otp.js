@@ -37,17 +37,17 @@ const Otp = (props) => {
     let onSignInSubmit = async (isResend) => {
         if (!isResend)
             configureCaptcha()
-        let phoneNumber = props.dataUser.phoneNumber
-        if (phoneNumber) {
-            phoneNumber = "+84" + phoneNumber.slice(1);
+        let phonenumber = props.dataUser.phonenumber
+        if (phonenumber) {
+            phonenumber = "+84" + phonenumber.slice(1);
         }
 
 
-        console.log("check phoneNumber", phoneNumber)
+        console.log("check phonenumber", phonenumber)
         const appVerifier = window.recaptchaVerifier;
         console.log(appVerifier);
 
-        await firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+        await firebase.auth().signInWithPhoneNumber(phonenumber, appVerifier)
             .then((confirmationResult) => {
                 // SMS sent. Prompt user to type the code from the message, then sign the
                 // user in with confirmationResult.confirm(code).
@@ -72,14 +72,14 @@ const Otp = (props) => {
                     password: props.dataUser.password,
                     firstName: props.dataUser.firstName,
                     lastName: props.dataUser.lastName,
-                    phoneNumber: props.dataUser.phoneNumber,
+                    phonenumber: props.dataUser.phonenumber,
                     roleCode: props.dataUser.roleCode,
                     email: props.dataUser.email,
                     image: 'https://res.cloudinary.com/bingo2706/image/upload/v1642521841/dev_setups/l60Hf_blyqhb.png',
                 })
                 if (res && res.errCode === 0) {
                     toast.success("Tạo tài khoản thành công")
-                    handleLogin(props.dataUser.phoneNumber, props.dataUser.password)
+                    handleLogin(props.dataUser.phonenumber, props.dataUser.password)
 
 
                 } else {
@@ -99,10 +99,10 @@ const Otp = (props) => {
     let resendOTP = async () => {
         await onSignInSubmit(true)
     }
-    let handleLogin = async (phoneNumber, password) => {
+    let handleLogin = async (phonenumber, password) => {
 
         let res = await handleLoginService({
-            phoneNumber: phoneNumber,
+            phonenumber: phonenumber,
             password: password
         })
 
@@ -131,7 +131,7 @@ const Otp = (props) => {
                         <img src="https://raw.githubusercontent.com/Rustcodeweb/OTP-Verification-Card-Design/main/mobile.png" />
                         <h5 style={{ color: '#fff' }} className="mb-2">XÁC THỰC OTP</h5>
                         <div>
-                            <small>mã đã được gửi tới sdt {props.dataUser && props.dataUser.phoneNumber}</small>
+                            <small>mã đã được gửi tới sdt {props.dataUser && props.dataUser.phonenumber}</small>
                         </div>
                     </div>
                     <div className="input-container d-flex flex-row justify-content-center mt-2">

@@ -10,6 +10,7 @@ import moment from 'moment';
 import { Spinner, Modal, ListGroupItemHeading } from 'reactstrap'
 import '../../../components/modal/modal.css'
 const AddUser = () => {
+    const history = useHistory()
     const user = JSON.parse(localStorage.getItem("userData"))
     const [birthday, setbirthday] = useState('');
     const [isChangeDate, setisChangeDate] = useState(false)
@@ -18,7 +19,7 @@ const AddUser = () => {
     const [isLoading, setIsLoading] = useState(false)
     const { id } = useParams();
     const [inputValues, setInputValues] = useState({
-        email: '', firstName: '', lastName: '', address: '', phoneNumber: '', genderCode: '', roleCode: '', id: '', dob: '', image: ''
+        email: '', firstName: '', lastName: '', address: '', phonenumber: '', genderCode: '', roleCode: '', id: '', dob: '', image: ''
     });
     let setStateUser = (data) => {
         setInputValues({
@@ -26,7 +27,7 @@ const AddUser = () => {
             ["firstName"]: data.userAccountData.firstName,
             ["lastName"]: data.userAccountData.lastName,
             ["address"]: data.userAccountData.address,
-            ["phoneNumber"]: data.phoneNumber,
+            ["phonenumber"]: data.phonenumber,
             ["genderCode"]: data.userAccountData.genderCode,
             ["roleCode"]: data.roleData.code,
             ["id"]: data.userAccountData.id,
@@ -86,8 +87,8 @@ const AddUser = () => {
                 address: inputValues.address,
                 roleCode: inputValues.roleCode,
                 genderCode: inputValues.genderCode,
-                phoneNumber: inputValues.phoneNumber,
-                password: inputValues.password,
+                phonenumber: inputValues.phonenumber,
+                // password: inputValues.password,
                 image: 'https://res.cloudinary.com/bingo2706/image/upload/v1642521841/dev_setups/l60Hf_blyqhb.png',
                 dob: new Date(birthday).getTime(),
             }
@@ -106,7 +107,7 @@ const AddUser = () => {
                         ["email"]: '',
                         ["lastName"]: '',
                         ["address"]: '',
-                        ["phoneNumber"]: '',
+                        ["phonenumber"]: '',
                         ["genderCode"]: '',
                         ["roleCode"]: '',
                         ["image"]: '',
@@ -126,7 +127,7 @@ const AddUser = () => {
                 address: inputValues.address,
                 roleCode: inputValues.roleCode,
                 genderCode: inputValues.genderCode,
-                password: inputValues.password,
+                // password: inputValues.password,
                 dob: isChangeDate === false ? inputValues.dob : new Date(birthday).getTime()
             })
             setTimeout(() => {
@@ -141,7 +142,6 @@ const AddUser = () => {
 
         }
     }
-    const history = useHistory()
     return (
         <div className=''>
             <div className="col-12 grid-margin">
@@ -184,7 +184,7 @@ const AddUser = () => {
                                     <div className="form-group row">
                                         <label className="col-sm-3 col-form-label">Số điện thoại</label>
                                         <div className="col-sm-9">
-                                            <input type="number" value={inputValues.phoneNumber} disabled={isActionADD === true ? false : true} name="phoneNumber" onChange={(event) => handleOnChange(event)} className="form-control" />
+                                            <input type="number" value={inputValues.phonenumber} disabled={isActionADD === true ? false : true} name="phonenumber" onChange={(event) => handleOnChange(event)} className="form-control" />
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +247,7 @@ const AddUser = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="row">
+                            {/* <div className="row">
                                 <div className="col-md-6">
                                     <div className="form-group row">
                                         <label className="col-sm-3 col-form-label">Mật khẩu đăng nhập</label>
@@ -259,7 +259,7 @@ const AddUser = () => {
                                 <div className="col-md-6">
                                     
                                 </div>
-                            </div>
+                            </div> */}
                             <button type="button" onClick={() => handleSaveUser()} className="btn1 btn1-primary1 btn1-icon-text">
                                 <i class="ti-file btn1-icon-prepend"></i>
                                 Lưu

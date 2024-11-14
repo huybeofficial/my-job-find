@@ -36,17 +36,17 @@ const OtpForgetPassword = (props) => {
     let onSignInSubmit = async (isResend) => {
         if (!isResend)
             configureCaptcha()
-        let phoneNumber = props.dataUser
-        if (phoneNumber) {
-            phoneNumber = "+84" + phoneNumber.slice(1);
+        let phonenumber = props.dataUser
+        if (phonenumber) {
+            phonenumber = "+84" + phonenumber.slice(1);
         }
 
 
-        console.log("check phoneNumber", phoneNumber)
+        console.log("check phonenumber", phonenumber)
         const appVerifier = window.recaptchaVerifier;
 
 
-        await firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+        await firebase.auth().signInWithPhoneNumber(phonenumber, appVerifier)
             .then((confirmationResult) => {
                 // SMS sent. Prompt user to type the code from the message, then sign the
                 // user in with confirmationResult.confirm(code).
@@ -84,7 +84,7 @@ const OtpForgetPassword = (props) => {
                         <img src="https://raw.githubusercontent.com/Rustcodeweb/OTP-Verification-Card-Design/main/mobile.png" />
                         <h5 style={{ color: '#fff' }} className="mb-2">XÁC THỰC OTP</h5>
                         <div>
-                            <small>mã đã được gửi tới sdt {props.dataUser && props.dataUser.phoneNumber}</small>
+                            <small>mã đã được gửi tới sdt {props.dataUser && props.dataUser.phonenumber}</small>
                         </div>
                     </div>
                     <div className="input-container d-flex flex-row justify-content-center mt-2">

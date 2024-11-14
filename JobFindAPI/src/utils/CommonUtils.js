@@ -13,16 +13,16 @@ let encodeToken = (userId) =>{
 )
 }
 
-let pdfToString = async(file) => {
-    file = new Buffer.from(file, 'base64').toString('binary');
-    let buffer = new Buffer.from(file.split(",")[1], 'base64');
-    const options = {}
-    let pdfData = null
-    await pdfExtract.extractBuffer(buffer, options)
-    .then(data => pdfData = data)
-    .catch(err=> console.log(err));
-    return pdfData
-}
+    let pdfToString = async(file) => {
+        file = new Buffer.from(file, 'base64').toString('binary');
+        let buffer = new Buffer.from(file.split(",")[1], 'base64');
+        const options = {}
+        let pdfData = null
+        await pdfExtract.extractBuffer(buffer, options)
+        .then(data => pdfData = data)
+        .catch(err=> console.log(err));
+        return pdfData
+    }
 let getAllKeyWords = (text) => {
     let options = {
         language: "english",
@@ -38,16 +38,16 @@ let getAllKeyWords = (text) => {
     return mapListKeyWord
 }
 
-let flatAllString= (string) => {
-    let output = string.toLocaleLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-      output = output.replace(/[đĐ]/g, (m) =>
-      m === "đ" ? "d" : "D"
-    );
-    output= output.replace(/[^a-zA-Z]/g, "")
-    return output;
-}
+    let flatAllString= (string) => {
+        let output = string.toLocaleLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+        output = output.replace(/[đĐ]/g, (m) =>
+        m === "đ" ? "d" : "D"
+        );
+        output= output.replace(/[^a-zA-Z]/g, "")
+        return output;
+    }
 
 module.exports = {
     encodeToken:encodeToken,

@@ -32,7 +32,7 @@ const Header = () => {
 
                     <li className="nav-item nav-profile dropdown">
                         <a className="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img style={{ objectFit: 'cover' }} src={user.image} alt="profile" />
+                            <img style={{ objectFit: 'cover' }} src={user.image || "/assets/img/banner/dog.png"} alt="profile" />
                         </a>
                         <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                             <Link to={'/admin/user-info/'} className="dropdown-item">

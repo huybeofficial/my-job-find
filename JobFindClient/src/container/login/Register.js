@@ -16,10 +16,10 @@ const Register = () => {
     const againPassRefs = React.createRef()
 
     const [inputValidates, setValidates] = useState({
-        phoneNumber: true, password: true, firstName: true, lastName: true, email: true, againPass: true
+        phonenumber: true, password: true, firstName: true, lastName: true, email: true, againPass: true
     })
     const [inputValues, setInputValues] = useState({
-        phoneNumber: '', firstName: '', lastName: '', password: '', isOpen: false, dataUser: {}, roleCode: '', email: '', againPass: '', genderCode: ''
+        phonenumber: '', firstName: '', lastName: '', password: '', isOpen: false, dataUser: {}, roleCode: '', email: '', againPass: '', genderCode: ''
     });
     let { data: dataRole } = useFetchAllcode('ROLE');
     let { data: dataGender } = useFetchAllcode('GENDER');
@@ -46,7 +46,7 @@ const Register = () => {
                 case "lastName":
                     lastNameRefs && phoneNumberRefs.current.focus();
                     break;
-                case "phoneNumber":
+                case "phonenumber":
                     phoneNumberRefs && emailRefs.current.focus();
                     break;
                 case "email":
@@ -64,14 +64,14 @@ const Register = () => {
 
     let handleRegister = async () => {
 
-        let checkPhonenumber = handleValidate(inputValues.phoneNumber, "phone")
+        let checkPhonenumber = handleValidate(inputValues.phonenumber, "phone")
         let checkPassword = handleValidate(inputValues.password, "password")
         let checkFirstName = handleValidate(inputValues.firstName, "isEmpty")
         let checkLastName = handleValidate(inputValues.lastName, "isEmpty")
         let checkEmail = handleValidate(inputValues.email, "email")
         if (!(checkPhonenumber === true && checkPassword === true && checkFirstName === true && checkLastName === true && checkEmail === true))
             return setValidates({
-                phoneNumber: checkPhonenumber,
+                phonenumber: checkPhonenumber,
                 password: checkPassword,
                 firstName: checkFirstName,
                 lastName: checkLastName,
@@ -82,7 +82,7 @@ const Register = () => {
             toast.error("Mật khẩu không trùng khớp!")
             return
         }
-        let res = await checkUserPhoneService(inputValues.phoneNumber)
+        let res = await checkUserPhoneService(inputValues.phonenumber)
         if (res === true) {
             toast.error("Số điện thoại đã tồn tại !")
         } else {
@@ -91,14 +91,14 @@ const Register = () => {
                     password: inputValues.password,
                     firstName: inputValues.firstName,
                     lastName: inputValues.lastName,
-                    phoneNumber: inputValues.phoneNumber,
+                    phonenumber: inputValues.phonenumber,
                     roleCode: inputValues.roleCode,
                     email: inputValues.email,
                     image: 'https://res.cloudinary.com/bingo2706/image/upload/v1642521841/dev_setups/l60Hf_blyqhb.png',
                 })
                 if (res && res.errCode === 0) {
                     toast.success("Tạo tài khoản thành công")
-                    handleLogin(inputValues.phoneNumber, inputValues.password)
+                    handleLogin(inputValues.phonenumber, inputValues.password)
 
 
                 } else {
@@ -111,10 +111,10 @@ const Register = () => {
         
     }
 
-    let handleLogin = async (phoneNumber, password) => {
+    let handleLogin = async (phonenumber, password) => {
 
         let res = await handleLoginService({
-            phoneNumber: phoneNumber,
+            phonenumber: phonenumber,
             password: password
         })
 
@@ -166,11 +166,11 @@ const Register = () => {
                                                 {inputValidates.lastName && <p style={{ color: 'red' }}>{inputValidates.lastName}</p>}
                                             </div>
                                             <div className="form-group">
-                                                <input type="text" placeholder="Số điện thoại" className="form-control form-control-lg" name="phoneNumber" id="phoneNumber"
-                                                    value={inputValues.phoneNumber} ref={phoneNumberRefs}
+                                                <input type="text" placeholder="Số điện thoại" className="form-control form-control-lg" name="phonenumber" id="phonenumber"
+                                                    value={inputValues.phonenumber} ref={phoneNumberRefs}
                                                     onChange={(event) => handleOnChange(event)} onKeyUp={(e) => pressEnterEvent(e)}
                                                 />
-                                                {inputValidates.phoneNumber && <p style={{ color: 'red' }}>{inputValidates.phoneNumber}</p>}
+                                                {inputValidates.phonenumber && <p style={{ color: 'red' }}>{inputValidates.phonenumber}</p>}
                                             </div>
                                             <div className="form-group">
                                                 <input type="email" placeholder="Email" className="form-control form-control-lg" name="email" id="email"

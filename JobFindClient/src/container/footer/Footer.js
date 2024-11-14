@@ -14,7 +14,7 @@ const Footer = () => {
                                 <div className="col-xl-10 col-lg-10 ">
                                     <div className="footer-copy-right">
                                         <p>
-                                            Bản quyền từ <a href="https://bento.me/huybe" target="_blank" rel="noreferrer">Một mÌnH tAo</a>
+                                            Bản quyền thuộc <a href="https://bento.me/huybe" target="_blank" rel="noreferrer">kilyan mhuybe</a>
                                         </p>
                                     </div>
                                 </div>

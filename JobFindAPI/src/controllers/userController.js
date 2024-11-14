@@ -61,6 +61,19 @@ let handleLogin = async (req, res) => {
         })
     }
 }
+
+let forgotPassword = async (req, res) => {
+    try {
+        let data = await userService.forgotPassword(req.body);
+        return res.status(200).json(data);
+    } catch (error) {
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: 'Error from server'
+        })
+    }
+}
+
 let handleChangePassword = async (req, res) => {
     try {
         let data = await userService.handleChangePassword(req.body);
@@ -99,13 +112,13 @@ let getDetailUserById = async (req, res) => {
 }
 let checkUserPhone = async (req, res) => {
     try {
-        let data = await userService.checkUserPhone(req.query.phoneNumber);
+        let data = await userService.checkUserPhone(req.query.phonenumber);
         return res.status(200).json(data);
     } catch (error) {
         console.log(error)
         return res.status(200).json({
             errCode: -1,
-            errMessage: 'Error from server'
+            errMessage: 'Lỗi máy chủ'
         })
     }
 }
@@ -142,6 +155,7 @@ module.exports = {
     handleBanUser: handleBanUser,
     handleUnbanUser: handleUnbanUser,
     handleLogin: handleLogin,
+    forgotPassword: forgotPassword,
     handleChangePassword: handleChangePassword,
     getAllUser: getAllUser,
     getDetailUserById: getDetailUserById,
