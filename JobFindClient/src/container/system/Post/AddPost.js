@@ -451,7 +451,9 @@ const AddPost = () => {
                         position: 'absolute', right: '50%',
                         justifyContent: 'center', alignItems: 'center'
                     }}>
-                        <Spinner animation="border"  ></Spinner>
+                       <div class="spinner-border" role="status">
+                            <span class="visually-hidden"></span>
+                        </div>
                     </div>
 
                 </Modal>

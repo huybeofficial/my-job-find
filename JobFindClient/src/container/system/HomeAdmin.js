@@ -53,12 +53,9 @@ const HomeAdmin = () => {
         <Router>
             <Switch >
                 <div className="container-scroller">
-                    {/* partial:partials/_navbar.html */}
                     <Header />
-                    {/* partial */}
                     <div className="container-fluid page-body-wrapper">
-                        {/* partial:partials/_settings-panel.html */}
-                        <div className="theme-setting-wrapper">
+                        {/* <div className="theme-setting-wrapper">
                             <div id="settings-trigger"><i className="ti-settings" /></div>
                             <div id="theme-settings" className="settings-panel">
                                 <i className="settings-close ti-close" />
@@ -75,7 +72,7 @@ const HomeAdmin = () => {
                                     <div className="tiles default" />
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                         <div id="right-sidebar" className="settings-panel">
                             <i className="settings-close ti-close" />
                             <ul className="nav nav-tabs border-top" id="setting-panel" role="tablist">

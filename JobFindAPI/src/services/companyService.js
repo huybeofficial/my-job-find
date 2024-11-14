@@ -1,6 +1,7 @@
 const { Op, and, where } = require("sequelize");
 import e from "express";
 import db from "../models/index";
+import { uploadImage } from "../utils/cloudinary";
 require('dotenv').config();
 var nodemailer = require('nodemailer');
 let sendmail = (note, userMail, link = null) => {

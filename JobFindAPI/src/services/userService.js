@@ -120,7 +120,6 @@ let handleCreateNewUser = (data) => {
                         await db.Account.create({
                             phonenumber: data.phonenumber,
                             password: hashPassword,
-                            email: data.email,
                             roleCode: data.roleCode,
                             statusCode: 'S1',
                             userId: user.id
@@ -402,20 +401,22 @@ let forgotPassword = async (data) => {
         });
 
         if (account) {
-            let userId = account.userId; // Lấy userId từ account
+            let userId = account.dataValues?.userId;
             let user = await db.User.findOne({
                 where: { id: userId },
+                attributes: ['id', 'email'],
                 raw: false
             });
-
             if (user) {
                 let newPassword = `${new Date().getTime().toString()}`;
                 let hashPassword = await hashUserPasswordFromBcrypt(newPassword);
                 account.password = hashPassword;
                 await account.save();
-                console.log("ACCOUNT:", account);
-                let note = `<h3>Mật khẩu mới của bạn là: ${newPassword}</h3>`;
-                sendmail(note, user.email, 'login'); // Gửi email đến user.email
+                let note = `<h3>Bạn đã yêu cầu cấp lại mật khẩu</h3>
+                                    <p>Tài khoản: ${data.phonenumber}</p>
+                                    <p>Mật khẩu mới: ${newPassword}</p>
+                        `;
+                sendmail(note, user.email, 'login');
                 return {
                     errCode: 0,
                     errMessage: 'Mật khẩu mới đã được gửi vào email của bạn'

@@ -37,17 +37,6 @@ const AddJobType = () => {
             fetchDetailJobType()
         }
     }, [])
-    
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            setInputValues({
-                ...inputValues,
-                value: CommonUtils.removeSpace(inputValues.value)
-            })
-        }, 50)
-    
-        return () => clearTimeout(delayDebounceFn)
-      }, [inputValues.value])
 
     const handleOnChange = event => {
         const { name, value } = event.target;
@@ -198,7 +187,9 @@ const AddJobType = () => {
                         position: 'absolute', right: '50%',
                         justifyContent: 'center', alignItems: 'center'
                     }}>
-                        <Spinner animation="border"  ></Spinner>
+                       <div class="spinner-border" role="status">
+                            <span class="visually-hidden"></span>
+                        </div>
                     </div>
 
                 </Modal>

@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
     return (
         <footer className="footer">
-                <div className="footer-bottom-area footer-bg" style={{backgroundColor:'white'}}>
+                {/* <div className="footer-bottom-area footer-bg" style={{backgroundColor:'white'}}>
                     <div className="container">
                         <div className="footer-border">
                             <div className="row d-flex justify-content-between align-items-center">
@@ -24,7 +24,7 @@ const Footer = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
         </footer>
     )
 }

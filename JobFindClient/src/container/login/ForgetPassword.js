@@ -31,7 +31,7 @@ const ForgetPassword = () => {
         let res = await forgotPassword({
             phonenumber: inputValues.phonenumber,
         })
-        if (res === true) {
+        if (res) {
             setInputValues({ ...inputValues, ["isSuccess"]: true })
         } else {
             setValidates({
@@ -111,19 +111,9 @@ const ForgetPassword = () => {
                                         <form className="pt-3">
 
                                             {inputValues.isSuccess === true &&
-                                                <>
-                                                    <div className="form-group">
-                                                        <input type="password" value={inputValues.newPassword} name="newPassword" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Mật khẩu mới" />
-                                                        {inputValidates.newPassword && <p style={{ color: 'red' }}>{inputValidates.newPassword}</p>}
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <input type="password" value={inputValues.confirmPassword} name="confirmPassword" onChange={(event) => handleOnChange(event)} className="form-control form-control-lg" id="exampleInputPassword1" placeholder="Xác nhận mật khẩu" />
-                                                        {inputValidates.confirmPassword && <p style={{ color: 'red' }}>{inputValidates.confirmPassword}</p>}
-                                                    </div>
-                                                    <div className="mt-3">
-                                                        <a onClick={() => handleForgetPassword()} className="btn1 btn1-block btn1-primary1 btn1-lg font-weight-medium auth-form-btn1" >Xác nhận</a>
-                                                    </div>
-                                                </>
+                                                <div class="alert alert-success" role="alert">
+                                                    Mật khẩu mới đã được gửi đến email đăng ký, vui lòng kiểm tra tại hộp thư email của bạn!
+                                                </div>
                                             }
                                             {inputValues.isSuccess === false &&
                                                 <>

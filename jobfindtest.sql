@@ -110,7 +110,7 @@ INSERT INTO `allcodes` (`code`, `type`, `value`, `image`) VALUES
 ('3-5tr', 'SALARYTYPE', '3 - 5 triệu', ''),
 ('3nam', 'EXPTYPE', '3 năm', ''),
 ('ADMIN', 'ROLE', 'Quản trị', NULL),
-('bat-dong-san', 'JOBTYPE', 'Bất động sản', 'http://res.cloudinary.com/bingo2706/image/upload/v1671071744/dev_setups/blvvjrk05lhknjukqgax_lcqugl_k78pll_sfllhk.png'),
+('bat-dong-san', 'JOBTYPE', 'Bất động sản', 'https://vietnamland.vn/wp-content/uploads/2022/02/banner_slider.jpeg'),
 ("An Giang", 'PROVINCE',"An Giang", NULL),
 ("Bà Rịa - Vũng Tàu", 'PROVINCE',"Bà Rịa - Vũng Tàu", NULL),
 ("Bình Dương", 'PROVINCE',"Bình Dương", NULL),

@@ -3,10 +3,7 @@ import React from 'react'
 const Footer = () => {
     return (
         <>
-            <footer>
-                {/* <!-- Footer Start--> */}
-
-                {/* <!-- footer-bottom area --> */}
+            {/* <footer>
                 <div className="footer-bottom-area footer-bg">
                     <div className="container">
                         <div className="footer-border">
@@ -31,7 +28,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-            </footer>
+            </footer> */}
         </>
     )
 }
